@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jamasb's Schedule &mdash; 2026&ndash;27</title>
+<title>Jamasb&rsquo;s Schedule &mdash; 2026&ndash;27</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -14,24 +14,32 @@
     min-height: 100vh;
   }
 
-  /* header */
   .header { text-align: center; margin-bottom: 32px; }
   .header h1 { font-size: 30px; font-weight: 800; color: #0f172a; letter-spacing: -.5px; }
   .header .sub { margin-top: 6px; color: #64748b; font-size: 14px; }
+  .header .sync { margin-top: 6px; font-size: 11px; color: #94a3b8; min-height: 16px; }
 
-  /* legend */
   .legend {
-    display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+    display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
     margin-bottom: 24px;
   }
-  .li { display: flex; align-items: center; gap: 7px; font-size: 13px; color: #475569; font-weight: 500; }
+  .li { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; font-weight: 500; }
   .ld { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
   .ld-vac  { background: #38bdf8; }
   .ld-off  { background: #4ade80; }
   .ld-work { background: #f87171; }
+  .ld-busy { background: #fde68a; border: 1px solid #f59e0b; }
   .ld-day  { background: #e2e8f0; border: 1px solid #cbd5e1; }
+  .ld-pc   {
+    width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0;
+    background: #fee2e2; position: relative;
+  }
+  .ld-pc::after {
+    content: '';
+    position: absolute; bottom: 2px; right: 2px;
+    width: 4px; height: 4px; border-radius: 50%; background: #f59e0b;
+  }
 
-  /* stats */
   .stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
   .stat {
     background: white; border-radius: 14px; padding: 14px 22px;
@@ -41,7 +49,6 @@
   .stat .num { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1; }
   .stat .lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-top: 4px; }
 
-  /* grid */
   .cal-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -50,7 +57,6 @@
     margin: 0 auto;
   }
 
-  /* month card */
   .month-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
   .month-head { background: #f8fafc; padding: 10px 14px; text-align: center; border-bottom: 1px solid #e2e8f0; }
   .month-head span { font-size: 13px; font-weight: 700; color: #334155; letter-spacing: .2px; }
@@ -72,9 +78,18 @@
   .day.off  { background: #dcfce7; color: #166534; font-weight: 700; }
   .day.work { background: #fee2e2; color: #991b1b; font-weight: 600; }
   .day.vac  { background: #e0f2fe; color: #0c4a6e; font-weight: 700; }
-  .day.today { outline: 2px solid #3b82f6; outline-offset: -1px; border-radius: 5px; }
+  .day.busy { background: #fef9c3; color: #854d0e; font-weight: 700; border: 1px solid #fde68a; }
+  .day.today { outline: 2px solid #3b82f6; outline-offset: -1px; }
 
-  /* upcoming panel */
+  /* Post-call dot: amber circle bottom-right of the cell */
+  .day.postcall::after {
+    content: '';
+    position: absolute; bottom: 2px; right: 2px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #f59e0b;
+  }
+
   .upcoming {
     max-width: 880px; margin: 28px auto 0;
     background: white; border-radius: 16px; padding: 22px 24px;
@@ -89,13 +104,11 @@
   .up-chip.off  { background: #dcfce7; color: #166534; }
   .up-chip.vac  { background: #e0f2fe; color: #0c4a6e; }
 
-  /* footer */
   .footer {
     text-align: center; margin-top: 32px;
-    font-size: 12px; color: #94a3b8; line-height: 1.8;
+    font-size: 12px; color: #94a3b8; line-height: 1.9;
   }
 
-  /* responsive */
   @media (max-width: 680px) { .cal-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 420px) {
     .cal-grid { grid-template-columns: 1fr; }
@@ -107,14 +120,17 @@
 <body>
 
 <div class="header">
-  <h1>Jamasb's Schedule &mdash; 2026&ndash;27</h1>
-  <p class="sub">PGY3 Neurosurgery Residency &middot; Stanford &middot; When I'm free</p>
+  <h1>Jamasb&rsquo;s Schedule &mdash; 2026&ndash;27</h1>
+  <p class="sub">PGY3 Neurosurgery Residency &middot; Stanford &middot; When I&rsquo;m free</p>
+  <p class="sync" id="syncStatus"></p>
 </div>
 
 <div class="legend">
   <div class="li"><div class="ld ld-vac"></div>Vacation</div>
   <div class="li"><div class="ld ld-off"></div>Free weekend</div>
   <div class="li"><div class="ld ld-work"></div>On call</div>
+  <div class="li"><div class="ld ld-busy"></div>Plans made</div>
+  <div class="li"><div class="ld ld-pc"></div>Post-call Sun (free PM)</div>
   <div class="li"><div class="ld ld-day"></div>Regular workday</div>
 </div>
 
@@ -126,12 +142,39 @@
 </div>
 
 <div class="footer">
-  Last updated June 2026 &nbsp;&middot;&nbsp; Contact Jamasb for any updates<br>
-  <span style="opacity:.6">On-call weekends = Saturday 7am through Sunday 7am</span>
+  <span style="opacity:.7">On-call = Sat 7am &mdash; Sun 7am &middot; Amber dot = post-call Sunday, free by evening</span><br>
+  Contact Jamasb for any updates &middot; <span id="lastSync"></span>
 </div>
 
 <script>
-// -- Schedule data --------------------------------------------
+// ==========================================================
+// GOOGLE CALENDAR LIVE SYNC
+// ==========================================================
+// To enable: follow these 3 steps, then paste values below.
+//
+// STEP 1 - Make a calendar public (or create a new one):
+//   calendar.google.com -> Settings (gear) -> your calendar
+//   -> "Access permissions for events" -> check "Make available to public"
+//
+// STEP 2 - Copy your Calendar ID:
+//   Same settings page -> "Integrate calendar" -> Calendar ID
+//   (looks like: abc123@gmail.com or abc@group.calendar.google.com)
+//
+// STEP 3 - Get a free API key:
+//   console.cloud.google.com -> New project -> Enable "Google Calendar API"
+//   -> Credentials -> Create API Key -> restrict to:
+//      Application: HTTP referrers
+//      Site: jjsayadi.github.io/*
+//
+// Then paste here:
+const GCAL_ID  = '';   // your Calendar ID
+const GCAL_KEY = '';   // your API key
+
+const CACHE_MS = 24 * 60 * 60 * 1000;   // refresh at most once per day
+
+// ==========================================================
+// SCHEDULE DATA
+// ==========================================================
 const vacations = [
   { start: '2026-08-01', end: '2026-08-09', label: 'Aug 1-9' },
   { start: '2026-12-05', end: '2026-12-13', label: 'Dec 5-13' },
@@ -139,7 +182,6 @@ const vacations = [
   { start: '2027-04-17', end: '2027-04-25', label: 'Apr 17-25' },
 ];
 
-// Saturdays when the weekend is fully off (no call)
 const offSats = new Set([
   '2026-07-11',
   '2026-08-15','2026-08-22',
@@ -150,7 +192,6 @@ const offSats = new Set([
   '2027-05-08','2027-05-22',
 ]);
 
-// Saturdays when on call (Sat 24H, PAVA, LPCH, or Valley weekend)
 const workSats = new Set([
   '2026-07-04','2026-07-18','2026-07-25',
   '2026-08-29',
@@ -166,7 +207,25 @@ const workSats = new Set([
   '2027-06-05','2027-06-12','2027-06-19',
 ]);
 
-// -- Helpers ------------------------------------
+// Saturday 24-hour shifts only (Sat 7am -> Sun 7am)
+// The Sunday after each of these is post-call: done by morning, free by evening
+const sat24h = new Set([
+  '2026-07-04','2026-07-25',
+  '2026-09-05','2026-09-26',
+  '2026-10-03','2026-10-24',
+  '2026-11-28',
+  '2026-12-19','2026-12-26',
+  '2027-01-16','2027-01-30',
+  '2027-02-20',
+  '2027-03-13',
+  '2027-04-03',
+  '2027-05-01','2027-05-15',
+  '2027-06-05',
+]);
+
+// ==========================================================
+// HELPERS
+// ==========================================================
 function pad(n) { return String(n).padStart(2,'0'); }
 function toStr(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 
@@ -191,23 +250,26 @@ function getStatus(d) {
   return 'wd';
 }
 
-// -- Build calendars ----------------------------
+function isPostCall(d) {
+  if (d.getDay() !== 0) return false;
+  const prev = new Date(d); prev.setDate(prev.getDate() - 1);
+  return sat24h.has(toStr(prev));
+}
+
+// ==========================================================
+// BUILD CALENDAR
+// ==========================================================
 const MONTH_NAMES = ['January','February','March','April','May','June',
                      'July','August','September','October','November','December'];
 const DOW = ['S','M','T','W','T','F','S'];
 
-// July 2026 -> June 2027 (12 months)
 const months = [];
 for (let i = 0; i < 12; i++) {
-  const absMonth = 6 + i; // July = 6
+  const absMonth = 6 + i;
   months.push({ year: 2026 + Math.floor(absMonth / 12), month: absMonth % 12 });
 }
 
 const grid = document.getElementById('calGrid');
-
-let totalOff = 0;
-let totalVac = 0;
-
 months.forEach(({ year, month }) => {
   const first = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -223,28 +285,30 @@ months.forEach(({ year, month }) => {
 
   for (let day = 1; day <= daysInMonth; day++) {
     const d = new Date(year, month, day);
+    const s = toStr(d);
     const status = getStatus(d);
-    const isToday = toStr(d) === todayStr ? ' today' : '';
-    html += `<div class="day ${status}${isToday}">${day}</div>`;
+    const pc = isPostCall(d) ? ' postcall' : '';
+    const today = s === todayStr ? ' today' : '';
+    html += `<div class="day ${status}${pc}${today}" data-date="${s}" data-base="${status}">${day}</div>`;
   }
 
   html += `</div></div></div>`;
   grid.innerHTML += html;
 });
 
-// -- Stats -----------------------------------
-// Count free weekends (Saturdays that are off or vac)
+// ==========================================================
+// STATS
+// ==========================================================
 let freeWkds = 0;
 const freeList = [];
-const d = new Date(2026, 6, 4); // First Saturday July 2026 (July 4)
-while (d <= new Date(2027, 5, 30)) {
-  const status = getStatus(d);
-  if (status === 'off' || status === 'vac') {
+const iterD = new Date(2026, 6, 4);
+while (iterD <= new Date(2027, 5, 30)) {
+  const st = getStatus(iterD);
+  if (st === 'off' || st === 'vac') {
     freeWkds++;
-    const label = MONTH_NAMES[d.getMonth()].slice(0,3) + ' ' + d.getDate();
-    freeList.push({ label, status });
+    freeList.push({ label: MONTH_NAMES[iterD.getMonth()].slice(0,3) + ' ' + iterD.getDate(), status: st });
   }
-  d.setDate(d.getDate() + 7);
+  iterD.setDate(iterD.getDate() + 7);
 }
 
 document.getElementById('stats').innerHTML = `
@@ -253,27 +317,75 @@ document.getElementById('stats').innerHTML = `
   <div class="stat"><div class="num">Jun '27</div><div class="lbl">Year Ends</div></div>
 `;
 
-// -- Upcoming free weekends panel --------------------
-const upList = document.getElementById('upList');
-const vacLabels = vacations.map(v => ({ label: v.label, type: 'vac' }));
-
-// Merge and sort free weekends + vacation labels
-const events = [];
-vacations.forEach(v => {
-  const sd = new Date(v.start + 'T12:00:00');
-  events.push({ sort: v.start, html: `<div class="up-chip vac">&#x1F334; Vacation ${v.label}</div>` });
-});
-freeList.forEach(f => {
-  if (f.status === 'off') {
-    events.push({ sort: f.label, html: `<div class="up-chip off">&#10003; ${f.label} weekend</div>` });
-  }
-});
-
-// Build the chip list &mdash; vacations first as a group, then off weekends sorted by date
 const vacChips = vacations.map(v => `<div class="up-chip vac">&#x1F334; Vacation: ${v.label}</div>`).join('');
 const offChips = freeList.filter(f => f.status === 'off').map(f => `<div class="up-chip off">&#10003; ${f.label} wknd</div>`).join('');
+document.getElementById('upList').innerHTML = vacChips + offChips;
 
-upList.innerHTML = vacChips + offChips;
+// ==========================================================
+// GOOGLE CALENDAR SYNC
+// ==========================================================
+function applyBusy(busySet) {
+  document.querySelectorAll('.day[data-date]').forEach(el => {
+    if (el.dataset.base === 'off' && busySet.has(el.dataset.date)) {
+      el.classList.remove('off');
+      el.classList.add('busy');
+    }
+  });
+}
+
+async function syncGCal() {
+  const statusEl = document.getElementById('syncStatus');
+  const footerEl = document.getElementById('lastSync');
+  if (!GCAL_ID || !GCAL_KEY) return;
+
+  // Use cache if fresh
+  try {
+    const raw = localStorage.getItem('gcal_cache_v2');
+    if (raw) {
+      const { ts, dates } = JSON.parse(raw);
+      if (Date.now() - ts < CACHE_MS) {
+        applyBusy(new Set(dates));
+        const mins = Math.round((Date.now() - ts) / 60000);
+        const label = mins < 2 ? 'just now' : mins < 60 ? `${mins}m ago` : `${Math.round(mins/60)}h ago`;
+        statusEl.textContent = `&#128197; Synced ${label}`;
+        footerEl.textContent = `Calendar synced ${label}`;
+        return;
+      }
+    }
+  } catch(e) {}
+
+  statusEl.textContent = 'Syncing calendar...';
+  try {
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GCAL_ID)}/events`
+      + `?key=${GCAL_KEY}&timeMin=2026-07-01T00:00:00Z&timeMax=2027-07-01T00:00:00Z`
+      + `&singleEvents=true&maxResults=500`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const json = await resp.json();
+
+    const busyDates = new Set();
+    for (const ev of (json.items || [])) {
+      if (ev.transparency === 'transparent') continue; // marked free in GCal
+      const start = ev.start?.date || ev.start?.dateTime?.slice(0,10);
+      const end   = ev.end?.date   || ev.end?.dateTime?.slice(0,10);
+      if (!start) continue;
+      let cur = new Date(start + 'T12:00:00');
+      const endD = new Date((end || start) + 'T12:00:00');
+      while (cur < endD) { busyDates.add(toStr(cur)); cur.setDate(cur.getDate()+1); }
+    }
+
+    const dates = [...busyDates];
+    localStorage.setItem('gcal_cache_v2', JSON.stringify({ ts: Date.now(), dates }));
+    applyBusy(busyDates);
+    statusEl.textContent = '&#128197; Synced just now';
+    footerEl.textContent = 'Calendar synced just now';
+  } catch(e) {
+    statusEl.textContent = 'Calendar sync unavailable';
+    console.warn('GCal sync:', e);
+  }
+}
+
+syncGCal();
 </script>
 </body>
 </html>
