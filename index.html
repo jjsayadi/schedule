@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jamasb's Schedule â 2026â27</title>
+<title>Jamasb's Schedule &mdash; 2026&ndash;27</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -107,8 +107,8 @@
 <body>
 
 <div class="header">
-  <h1>Jamasb's Schedule â 2026â27</h1>
-  <p class="sub">PGY3 Neurosurgery Residency Â· Stanford Â· When I'm free</p>
+  <h1>Jamasb's Schedule &mdash; 2026&ndash;27</h1>
+  <p class="sub">PGY3 Neurosurgery Residency &middot; Stanford &middot; When I'm free</p>
 </div>
 
 <div class="legend">
@@ -126,17 +126,17 @@
 </div>
 
 <div class="footer">
-  Last updated June 2026 &nbsp;Â·&nbsp; Contact Jamasb for any updates<br>
+  Last updated June 2026 &nbsp;&middot;&nbsp; Contact Jamasb for any updates<br>
   <span style="opacity:.6">On-call weekends = Saturday 7am through Sunday 7am</span>
 </div>
 
 <script>
-// ââ Schedule data ââââââââââââââââââââââââââââââââââââââââââââââ
+// -- Schedule data --------------------------------------------
 const vacations = [
-  { start: '2026-08-01', end: '2026-08-09', label: 'Aug 1â9' },
-  { start: '2026-12-05', end: '2026-12-13', label: 'Dec 5â13' },
-  { start: '2027-02-06', end: '2027-02-14', label: 'Feb 6â14' },
-  { start: '2027-04-17', end: '2027-04-25', label: 'Apr 17â25' },
+  { start: '2026-08-01', end: '2026-08-09', label: 'Aug 1-9' },
+  { start: '2026-12-05', end: '2026-12-13', label: 'Dec 5-13' },
+  { start: '2027-02-06', end: '2027-02-14', label: 'Feb 6-14' },
+  { start: '2027-04-17', end: '2027-04-25', label: 'Apr 17-25' },
 ];
 
 // Saturdays when the weekend is fully off (no call)
@@ -167,7 +167,7 @@ const workSats = new Set([
   '2027-06-05','2027-06-12','2027-06-19',
 ]);
 
-// ââ Helpers ââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// -- Helpers ------------------------------------
 function pad(n) { return String(n).padStart(2,'0'); }
 function toStr(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
 
@@ -192,12 +192,12 @@ function getStatus(d) {
   return 'wd';
 }
 
-// ââ Build calendars ââââââââââââââââââââââââââââââââââââââââââââ
+// -- Build calendars ----------------------------
 const MONTH_NAMES = ['January','February','March','April','May','June',
                      'July','August','September','October','November','December'];
 const DOW = ['S','M','T','W','T','F','S'];
 
-// July 2026 â June 2027 (12 months)
+// July 2026 -> June 2027 (12 months)
 const months = [];
 for (let i = 0; i < 12; i++) {
   const absMonth = 6 + i; // July = 6
@@ -233,7 +233,7 @@ months.forEach(({ year, month }) => {
   grid.innerHTML += html;
 });
 
-// ââ Stats ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// -- Stats -----------------------------------
 // Count free weekends (Saturdays that are off or vac)
 let freeWkds = 0;
 const freeList = [];
@@ -254,7 +254,7 @@ document.getElementById('stats').innerHTML = `
   <div class="stat"><div class="num">Jun '27</div><div class="lbl">Year Ends</div></div>
 `;
 
-// ââ Upcoming free weekends panel âââââââââââââââââââââââââââââââ
+// -- Upcoming free weekends panel --------------------
 const upList = document.getElementById('upList');
 const vacLabels = vacations.map(v => ({ label: v.label, type: 'vac' }));
 
@@ -262,17 +262,17 @@ const vacLabels = vacations.map(v => ({ label: v.label, type: 'vac' }));
 const events = [];
 vacations.forEach(v => {
   const sd = new Date(v.start + 'T12:00:00');
-  events.push({ sort: v.start, html: `<div class="up-chip vac">ð´ Vacation ${v.label}</div>` });
+  events.push({ sort: v.start, html: `<div class="up-chip vac">&#x1F334; Vacation ${v.label}</div>` });
 });
 freeList.forEach(f => {
   if (f.status === 'off') {
-    events.push({ sort: f.label, html: `<div class="up-chip off">â ${f.label} weekend</div>` });
+    events.push({ sort: f.label, html: `<div class="up-chip off">&#10003; ${f.label} weekend</div>` });
   }
 });
 
-// Build the chip list â vacations first as a group, then off weekends sorted by date
-const vacChips = vacations.map(v => `<div class="up-chip vac">ð´ Vacation: ${v.label}</div>`).join('');
-const offChips = freeList.filter(f => f.status === 'off').map(f => `<div class="up-chip off">â ${f.label} wknd</div>`).join('');
+// Build the chip list &mdash; vacations first as a group, then off weekends sorted by date
+const vacChips = vacations.map(v => `<div class="up-chip vac">&#x1F334; Vacation: ${v.label}</div>`).join('');
+const offChips = freeList.filter(f => f.status === 'off').map(f => `<div class="up-chip off">&#10003; ${f.label} wknd</div>`).join('');
 
 upList.innerHTML = vacChips + offChips;
 </script>
