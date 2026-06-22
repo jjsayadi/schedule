@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jamasb's Schedule â 2026â27</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 40px 24px 72px;
+    min-height: 100vh;
+  }
+
+  /* header */
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 { font-size: 30px; font-weight: 800; color: #0f172a; letter-spacing: -.5px; }
+  .header .sub { margin-top: 6px; color: #64748b; font-size: 14px; }
+
+  /* legend */
+  .legend {
+    display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .li { display: flex; align-items: center; gap: 7px; font-size: 13px; color: #475569; font-weight: 500; }
+  .ld { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+  .ld-vac  { background: #38bdf8; }
+  .ld-off  { background: #4ade80; }
+  .ld-work { background: #f87171; }
+  .ld-day  { background: #e2e8f0; border: 1px solid #cbd5e1; }
+
+  /* stats */
+  .stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+  .stat {
+    background: white; border-radius: 14px; padding: 14px 22px;
+    text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    border: 1px solid #e2e8f0; min-width: 110px;
+  }
+  .stat .num { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1; }
+  .stat .lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-top: 4px; }
+
+  /* grid */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  /* month card */
+  .month-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+  .month-head { background: #f8fafc; padding: 10px 14px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+  .month-head span { font-size: 13px; font-weight: 700; color: #334155; letter-spacing: .2px; }
+  .month-body { padding: 10px 10px 12px; }
+
+  .dow-row { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 3px; }
+  .dow-row div { text-align: center; font-size: 9px; font-weight: 700; color: #94a3b8; letter-spacing: .5px; text-transform: uppercase; padding: 2px 0; }
+
+  .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .day {
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500;
+    border-radius: 5px;
+    color: #94a3b8;
+    position: relative;
+  }
+  .day.wd   { color: #64748b; }
+  .day.off  { background: #dcfce7; color: #166534; font-weight: 700; }
+  .day.work { background: #fee2e2; color: #991b1b; font-weight: 600; }
+  .day.vac  { background: #e0f2fe; color: #0c4a6e; font-weight: 700; }
+  .day.today { outline: 2px solid #3b82f6; outline-offset: -1px; border-radius: 5px; }
+
+  /* upcoming panel */
+  .upcoming {
+    max-width: 880px; margin: 28px auto 0;
+    background: white; border-radius: 16px; padding: 22px 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0;
+  }
+  .upcoming h3 { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 14px; }
+  .up-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .up-chip {
+    padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .up-chip.off  { background: #dcfce7; color: #166534; }
+  .up-chip.vac  { background: #e0f2fe; color: #0c4a6e; }
+
+  /* footer */
+  .footer {
+    text-align: center; margin-top: 32px;
+    font-size: 12px; color: #94a3b8; line-height: 1.8;
+  }
+
+  /* responsive */
+  @media (max-width: 680px) { .cal-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) {
+    .cal-grid { grid-template-columns: 1fr; }
+    body { padding: 24px 14px 56px; }
+    .header h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Jamasb's Schedule â 2026â27</h1>
+  <p class="sub">PGY3 Neurosurgery Residency Â· Stanford Â· When I'm free</p>
+</div>
+
+<div class="legend">
+  <div class="li"><div class="ld ld-vac"></div>Vacation</div>
+  <div class="li"><div class="ld ld-off"></div>Free weekend</div>
+  <div class="li"><div class="ld ld-work"></div>On call</div>
+  <div class="li"><div class="ld ld-day"></div>Regular workday</div>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="cal-grid" id="calGrid"></div>
+<div class="upcoming">
+  <h3>Free weekends at a glance</h3>
+  <div class="up-list" id="upList"></div>
+</div>
+
+<div class="footer">
+  Last updated June 2026 &nbsp;Â·&nbsp; Contact Jamasb for any updates<br>
+  <span style="opacity:.6">On-call weekends = Saturday 7am through Sunday 7am</span>
+</div>
+
+<script>
+// ââ Schedule data ââââââââââââââââââââââââââââââââââââââââââââââ
+const vacations = [
+  { start: '2026-08-01', end: '2026-08-09', label: 'Aug 1â9' },
+  { start: '2026-12-05', end: '2026-12-13', label: 'Dec 5â13' },
+  { start: '2027-02-06', end: '2027-02-14', label: 'Feb 6â14' },
+  { start: '2027-04-17', end: '2027-04-25', label: 'Apr 17â25' },
+];
+
+// Saturdays when the weekend is fully off (no call)
+const offSats = new Set([
+  '2026-07-11',
+  '2026-08-15','2026-08-22',
+  '2026-09-12',
+  '2026-10-10',
+  '2026-11-07','2026-11-14',
+  '2027-01-09',
+  '2027-03-06','2027-03-27',
+  '2027-05-08','2027-05-22',
+]);
+
+// Saturdays when on call (Sat 24H, PAVA, LPCH, or Valley weekend)
+const workSats = new Set([
+  '2026-07-04','2026-07-18','2026-07-25',
+  '2026-08-29',
+  '2026-09-05','2026-09-19','2026-09-26',
+  '2026-10-03','2026-10-17','2026-10-24','2026-10-31',
+  '2026-11-21','2026-11-28',
+  '2026-12-19','2026-12-26',
+  '2027-01-02','2027-01-16','2027-01-23','2027-01-30',
+  '2027-02-20','2027-02-27',
+  '2027-03-13','2027-03-20',
+  '2027-04-03','2027-04-10',
+  '2027-05-01','2027-05-15','2027-05-29',
+  '2027-06-05','2027-06-12','2027-06-19',
+]);
+
+// ââ Helpers ââââââââââââââââââââââââââââââââââââââââââââââââââââ
+function pad(n) { return String(n).padStart(2,'0'); }
+function toStr(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+
+const todayStr = toStr(new Date());
+
+function getStatus(d) {
+  const s = toStr(d);
+  for (const v of vacations) if (s >= v.start && s <= v.end) return 'vac';
+  const dow = d.getDay();
+  if (dow === 6) {
+    if (offSats.has(s)) return 'off';
+    if (workSats.has(s)) return 'work';
+    return 'wd';
+  }
+  if (dow === 0) {
+    const prev = new Date(d); prev.setDate(prev.getDate() - 1);
+    const ps = toStr(prev);
+    if (offSats.has(ps)) return 'off';
+    if (workSats.has(ps)) return 'work';
+    return 'wd';
+  }
+  return 'wd';
+}
+
+// ââ Build calendars ââââââââââââââââââââââââââââââââââââââââââââ
+const MONTH_NAMES = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+const DOW = ['S','M','T','W','T','F','S'];
+
+// July 2026 â June 2027 (12 months)
+const months = [];
+for (let i = 0; i < 12; i++) {
+  const absMonth = 6 + i; // July = 6
+  months.push({ year: 2026 + Math.floor(absMonth / 12), month: absMonth % 12 });
+}
+
+const grid = document.getElementById('calGrid');
+
+let totalOff = 0;
+let totalVac = 0;
+
+months.forEach(({ year, month }) => {
+  const first = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const startDow = first.getDay();
+
+  let html = `<div class="month-card">
+    <div class="month-head"><span>${MONTH_NAMES[month]} ${year}</span></div>
+    <div class="month-body">
+      <div class="dow-row">${DOW.map(d=>`<div>${d}</div>`).join('')}</div>
+      <div class="days">`;
+
+  for (let i = 0; i < startDow; i++) html += `<div class="day"></div>`;
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const d = new Date(year, month, day);
+    const status = getStatus(d);
+    const isToday = toStr(d) === todayStr ? ' today' : '';
+    html += `<div class="day ${status}${isToday}">${day}</div>`;
+  }
+
+  html += `</div></div></div>`;
+  grid.innerHTML += html;
+});
+
+// ââ Stats ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// Count free weekends (Saturdays that are off or vac)
+let freeWkds = 0;
+const freeList = [];
+const d = new Date(2026, 6, 4); // First Saturday July 2026 (July 4)
+while (d <= new Date(2027, 5, 30)) {
+  const status = getStatus(d);
+  if (status === 'off' || status === 'vac') {
+    freeWkds++;
+    const label = MONTH_NAMES[d.getMonth()].slice(0,3) + ' ' + d.getDate();
+    freeList.push({ label, status });
+  }
+  d.setDate(d.getDate() + 7);
+}
+
+document.getElementById('stats').innerHTML = `
+  <div class="stat"><div class="num">4</div><div class="lbl">Vacations</div></div>
+  <div class="stat"><div class="num">${freeWkds}</div><div class="lbl">Free Weekends</div></div>
+  <div class="stat"><div class="num">Jun '27</div><div class="lbl">Year Ends</div></div>
+`;
+
+// ââ Upcoming free weekends panel âââââââââââââââââââââââââââââââ
+const upList = document.getElementById('upList');
+const vacLabels = vacations.map(v => ({ label: v.label, type: 'vac' }));
+
+// Merge and sort free weekends + vacation labels
+const events = [];
+vacations.forEach(v => {
+  const sd = new Date(v.start + 'T12:00:00');
+  events.push({ sort: v.start, html: `<div class="up-chip vac">ð´ Vacation ${v.label}</div>` });
+});
+freeList.forEach(f => {
+  if (f.status === 'off') {
+    events.push({ sort: f.label, html: `<div class="up-chip off">â ${f.label} weekend</div>` });
+  }
+});
+
+// Build the chip list â vacations first as a group, then off weekends sorted by date
+const vacChips = vacations.map(v => `<div class="up-chip vac">ð´ Vacation: ${v.label}</div>`).join('');
+const offChips = freeList.filter(f => f.status === 'off').map(f => `<div class="up-chip off">â ${f.label} wknd</div>`).join('');
+
+upList.innerHTML = vacChips + offChips;
+</script>
+</body>
+</html>
