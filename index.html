@@ -160,7 +160,7 @@
 </div>
 
 <div class="footer">
-  <span style="opacity:.7">On-call = Sat 7am &mdash; Sun 7am &middot; Amber dot = post-call Sunday, free by evening</span><br>
+  <span style="opacity:.7">On-call = Sat 6am &mdash; Sun 6am &middot; Amber dot = post-call Sunday, free by evening</span><br>
   Contact Jamasb for any updates &middot; <span id="lastSync"></span>
 </div>
 
@@ -380,7 +380,7 @@ async function syncGCal() {
         applyBusy(new Set(dates));
         const mins = Math.round((Date.now() - ts) / 60000);
         const label = mins < 2 ? 'just now' : mins < 60 ? `${mins}m ago` : `${Math.round(mins/60)}h ago`;
-        statusEl.textContent = `&#128197; Synced ${label}`;
+        statusEl.innerHTML = `&#128197; Synced ${label}`;
         footerEl.textContent = `Calendar synced ${label}`;
         return;
       }
@@ -410,7 +410,7 @@ async function syncGCal() {
     const dates = [...busyDates];
     localStorage.setItem('gcal_cache_v2', JSON.stringify({ ts: Date.now(), dates }));
     applyBusy(busyDates);
-    statusEl.textContent = '&#128197; Synced just now';
+    statusEl.innerHTML = '&#128197; Synced just now';
     footerEl.textContent = 'Calendar synced just now';
   } catch(e) {
     statusEl.textContent = 'Calendar sync unavailable';
