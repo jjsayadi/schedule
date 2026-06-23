@@ -8,21 +8,30 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #f1f5f9; color: #1e293b; padding: 36px 20px 72px; }
 
-.header { text-align: center; margin-bottom: 28px; }
+.header { text-align: center; margin-bottom: 24px; }
 .header h1 { font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -.4px; }
 .header .sub { color: #64748b; font-size: 13px; margin-top: 5px; }
 .header .pace { font-size: 12px; color: #94a3b8; margin-top: 4px; min-height: 18px; }
 
-.stats { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+.quicklog { max-width: 960px; margin: 0 auto 20px; background: white; border-radius: 13px; padding: 14px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.quicklog label { font-size: 13px; font-weight: 700; color: #334155; white-space: nowrap; }
+.quicklog input { border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 12px; font-size: 14px; font-weight: 700; width: 80px; color: #0f172a; }
+.quicklog button { background: #3b82f6; color: white; border: none; border-radius: 8px; padding: 7px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.quicklog button:hover { background: #2563eb; }
+.ql-note { font-size: 11px; color: #94a3b8; }
+.sync-note { font-size: 11px; color: #64748b; margin-left: auto; }
+.sync-note code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; font-size: 10px; font-family: monospace; }
+
+.stats { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 .stat { background: white; border-radius: 12px; padding: 12px 18px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; min-width: 110px; }
 .stat .num { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1; }
 .stat .lbl { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: .7px; margin-top: 3px; }
 
-.legend { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.legend { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
 .li { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #475569; font-weight: 500; }
 .ld { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
 
-.cal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 960px; margin: 0 auto 26px; }
+.cal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 960px; margin: 0 auto 24px; }
 .month-card { background: white; border-radius: 13px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
 .month-head { background: #f8fafc; padding: 9px 12px; text-align: center; border-bottom: 1px solid #e2e8f0; }
 .month-head span { font-size: 12px; font-weight: 700; color: #334155; }
@@ -30,19 +39,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .dow-row { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 3px; }
 .dow-row div { text-align: center; font-size: 8px; font-weight: 700; color: #94a3b8; letter-spacing: .4px; text-transform: uppercase; }
 .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
-
-.day {
-  aspect-ratio: 1; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  border-radius: 4px; position: relative; cursor: default;
-  padding: 1px;
-}
+.day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 4px; position: relative; cursor: default; padding: 1px; }
 .day.clickable { cursor: pointer; }
 .day.clickable:hover { filter: brightness(.92); }
 .day .dn { font-size: 10px; font-weight: 700; line-height: 1; }
 .day .tgt { font-size: 7px; font-weight: 500; opacity: .8; line-height: 1; margin-top: 1px; }
 .day .chk { font-size: 8px; position: absolute; top: 1px; right: 2px; line-height: 1; }
-
 .day.weekday  { background: #dbeafe; color: #1e40af; }
 .day.free     { background: #dcfce7; color: #166534; }
 .day.vac      { background: #e0f2fe; color: #0c4a6e; }
@@ -57,7 +59,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .day.done     { outline: 2px solid #22c55e !important; outline-offset: -1px; }
 .day.partial  { outline: 2px dashed #f59e0b !important; outline-offset: -1px; }
 
-.decks { max-width: 960px; margin: 0 auto 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.decks { max-width: 960px; margin: 0 auto 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .deck-card { background: white; border-radius: 13px; padding: 16px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
 .deck-card h3 { font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 2px; }
 .deck-card .ds { font-size: 10px; color: #64748b; margin-bottom: 10px; }
@@ -66,8 +68,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .dnums { font-size: 10px; color: #64748b; display: flex; justify-content: space-between; }
 .dorder { font-size: 9px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
 
-.section { max-width: 960px; margin: 0 auto 26px; background: white; border-radius: 13px; padding: 20px 22px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+.section { max-width: 960px; margin: 0 auto 24px; background: white; border-radius: 13px; padding: 20px 22px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
 .section h2 { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 14px; }
+
+.rhythm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+.rhythm-card { background: #f8fafc; border-radius: 10px; padding: 14px 16px; border: 1px solid #e2e8f0; }
+.rhythm-card h4 { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: #475569; margin-bottom: 8px; }
+.rhythm-card li { font-size: 11px; color: #334155; padding: 3px 0 3px 14px; position: relative; line-height: 1.45; list-style: none; }
+.rhythm-card li::before { content: '&#8250;'; position: absolute; left: 2px; color: #94a3b8; }
 
 .week-table { width: 100%; border-collapse: collapse; font-size: 11px; }
 .week-table th { text-align: left; padding: 5px 8px; background: #f8fafc; color: #64748b; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid #e2e8f0; }
@@ -84,7 +92,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 .res-card .rname { font-size: 12px; font-weight: 700; color: #1e40af; text-decoration: none; display: block; margin-bottom: 3px; }
 .res-card .rname:hover { text-decoration: underline; }
 .res-card .rdesc { font-size: 10px; color: #64748b; line-height: 1.5; }
+.res-card .rwhen { font-size: 10px; color: #059669; font-weight: 600; margin-top: 5px; line-height: 1.4; }
 .res-card .rtag { display: inline-block; margin-top: 6px; font-size: 9px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: #ede9fe; color: #5b21b6; }
+
+.sync-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 14px 16px; margin-top: 14px; }
+.sync-box h4 { font-size: 12px; font-weight: 700; color: #166534; margin-bottom: 6px; }
+.sync-box p { font-size: 11px; color: #14532d; line-height: 1.7; }
+.sync-box code { background: #dcfce7; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-family: monospace; }
 
 .note { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 6px; }
 
@@ -92,6 +106,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
   .cal-grid { grid-template-columns: repeat(2, 1fr); }
   .decks { grid-template-columns: 1fr; }
   .res-grid { grid-template-columns: repeat(2, 1fr); }
+  .rhythm-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
   .cal-grid { grid-template-columns: 1fr; }
@@ -103,8 +118,16 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 
 <div class="header">
   <h1>PGY3 Study Plan &mdash; VA Rotation</h1>
-  <p class="sub">June 29 &ndash; October 16, 2026 &middot; Stanford PGY3 Neurosurgery</p>
+  <p class="sub">June 23 &ndash; October 16, 2026 &middot; Stanford PGY3 Neurosurgery</p>
   <p class="pace" id="paceMsg"></p>
+</div>
+
+<div class="quicklog">
+  <label>Today's cards done:</label>
+  <input type="number" id="qlInput" min="0" max="300" placeholder="0">
+  <button onclick="quickLog()">Save</button>
+  <span class="ql-note" id="qlNote"></span>
+  <span class="sync-note">Auto-sync: run <code>python3 ~/anki_sync.py</code> in Terminal</span>
 </div>
 
 <div class="stats" id="stats"></div>
@@ -122,14 +145,56 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 </div>
 
 <div class="cal-grid" id="calGrid"></div>
-<p class="note">Click any past or today's date to log how many cards you did.</p>
+<p class="note" style="margin-bottom:20px">Click any past or today to log cards. Or use Quick Log above.</p>
 
 <div class="decks" id="deckProg"></div>
 
 <div class="section">
+  <h2>How to Use the Resources</h2>
+  <div class="rhythm-grid">
+    <div class="rhythm-card">
+      <h4>Daily Rhythm</h4>
+      <ul>
+        <li><strong>Pre-rounds (20 min):</strong> Anki reviews only -- no new cards</li>
+        <li><strong>Lunch (20 min):</strong> New cards (NSGY Boards) + 10 new Fluoro cards</li>
+        <li><strong>Evening (25 min):</strong> Finish new card target for the day</li>
+        <li><strong>After cases:</strong> Search Anki for the case topic tag -- drill 10 cards</li>
+      </ul>
+    </div>
+    <div class="rhythm-card">
+      <h4>Weekly Rhythm (Sunday)</h4>
+      <ul>
+        <li><strong>15 min -- Greenberg prep:</strong> Open AccessSurgery to next week's chapter. Skim headings, memorize 3 key numbers (doses, grades, thresholds)</li>
+        <li><strong>Set Anki filter</strong> to next week's subdeck in NSGY Boards</li>
+        <li><strong>20 SANS questions:</strong> Any topic, timed, read all explanations carefully</li>
+      </ul>
+    </div>
+    <div class="rhythm-card">
+      <h4>Case-Linked</h4>
+      <ul>
+        <li><strong>Night before cranial case:</strong> Open Rhoton atlas for that anatomy (5 min)</li>
+        <li><strong>Night before spine case:</strong> Watch Operative Neurosurgery video for that approach</li>
+        <li><strong>After tumor case:</strong> Pull WHO classification table + run Anki tumor tag</li>
+        <li><strong>Week 16:</strong> Full timed SANS mock exam -- simulate real exam conditions</li>
+      </ul>
+    </div>
+  </div>
+  <div class="sync-box">
+    <h4>Anki Auto-Sync (no plugin required)</h4>
+    <p>
+      Run <code>python3 ~/anki_sync.py</code> in Terminal after each study session.
+      It reads your Anki database directly -- Anki does not need to be open.
+      It counts all cards reviewed today from <code>NSGY Boards 2024 Updated</code>,
+      <code>Dura Deck v2::TR Neurosurgery Board Review</code>, and <code>NSGY Fluoro</code>,
+      then opens this page with the count auto-applied. No manual entry needed.
+    </p>
+  </div>
+</div>
+
+<div class="section">
   <h2>Weekly Deep-Dive Curriculum</h2>
   <table class="week-table">
-    <thead><tr><th>Wk</th><th>Dates</th><th>Topic</th><th>Deck</th><th>30-min Focus</th></tr></thead>
+    <thead><tr><th>Wk</th><th>Dates</th><th>Topic</th><th>Deck</th></tr></thead>
     <tbody id="weekTbl"></tbody>
   </table>
 </div>
@@ -137,21 +202,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
 <div class="section">
   <h2>Study Resources</h2>
   <div class="res-grid" id="resList"></div>
-  <p class="note" style="margin-top:14px">All links require institutional login or membership where noted. Stanford library provides AccessSurgery + journal access.</p>
+  <p class="note" style="margin-top:14px">Stanford library covers AccessSurgery + journals. SANS requires CNS membership.</p>
 </div>
 
 <script>
-// ---- CONFIG ----
-var VA_START = '2026-06-29';
+var VA_START = '2026-06-23';
 var VA_END   = '2026-10-16';
-var TOTAL_TARGET = 4860;
+var TOTAL_TARGET = 5180;
 var BOARDS_TOTAL = 2656;
 var DURA_TOTAL   = 2027;
 var FLUORO_TOTAL = 555;
-var BOARDS_DONE_BY = '2026-08-27'; // estimated switchover
 
-// Day type overrides (all weekdays default to 'weekday')
 var DT = {
+  '2026-06-27':'free',  '2026-06-28':'free',
   '2026-07-04':'sat24h','2026-07-05':'postcall',
   '2026-07-11':'free',  '2026-07-12':'free',
   '2026-07-18':'pava',  '2026-07-19':'pavasun',
@@ -171,11 +234,8 @@ var DT = {
 
 var TGTS = { weekday:50, free:60, vac:30, sat24h:0, postcall:15, pava:25, pavasun:30 };
 
-// ---- HELPERS ----
 function pad(n) { return String(n).padStart(2,'0'); }
 function toStr(d) { return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
-function addDays(d,n) { var r=new Date(d); r.setDate(r.getDate()+n); return r; }
-
 var todayStr = toStr(new Date());
 
 function getType(s) {
@@ -187,13 +247,46 @@ function getType(s) {
 }
 function getTarget(s) { return TGTS[getType(s)] || 0; }
 
-// ---- PROGRESS ----
+// URL sync parameter: ?sync=2026-06-23:50  (from anki_sync.py)
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var sync = params.get('sync');
+  if (!sync) return;
+  var lastColon = sync.lastIndexOf(':');
+  if (lastColon < 0) return;
+  var date  = sync.substring(0, lastColon);
+  var count = parseInt(sync.substring(lastColon + 1));
+  if (date && !isNaN(count) && count >= 0) {
+    var p = load();
+    if (count === 0) { delete p[date]; } else { p[date] = count; }
+    save(p);
+  }
+  history.replaceState({}, '', window.location.pathname);
+})();
+
 function load() { try { return JSON.parse(localStorage.getItem('sp_v1')||'{}'); } catch(e) { return {}; } }
 function save(p) { localStorage.setItem('sp_v1', JSON.stringify(p)); }
 var prog = load();
 function totalDone() { return Object.values(prog).reduce(function(a,b){return a+b;},0); }
 
-// ---- STATS ----
+// Pre-fill quick log input with today's existing value
+(function() {
+  var cur = prog[todayStr];
+  if (cur) document.getElementById('qlInput').value = cur;
+})();
+
+function quickLog() {
+  var inp = document.getElementById('qlInput');
+  var val = parseInt(inp.value);
+  if (isNaN(val) || val < 0) return;
+  if (val === 0) { delete prog[todayStr]; } else { prog[todayStr] = val; }
+  save(prog);
+  document.getElementById('qlNote').textContent = 'Saved ' + val + ' for ' + todayStr;
+  renderCalendar();
+  renderStats();
+  setTimeout(function() { document.getElementById('qlNote').textContent = ''; }, 3000);
+}
+
 function renderStats() {
   var done = totalDone();
   var today = new Date(); today.setHours(12,0,0,0);
@@ -203,7 +296,7 @@ function renderStats() {
   var pace = daysLeft > 0 ? Math.ceil(remaining/daysLeft) : 0;
 
   document.getElementById('paceMsg').textContent =
-    daysLeft + ' days remaining -- need ' + pace + ' cards/day to finish on target';
+    daysLeft + ' days remaining -- need ' + pace + ' cards/day to stay on target';
 
   var pct = Math.min(100, Math.round(done/TOTAL_TARGET*100));
   document.getElementById('stats').innerHTML =
@@ -218,12 +311,12 @@ function renderStats() {
   var fluoroDone = Math.min(Math.round(done * FLUORO_TOTAL / TOTAL_TARGET), FLUORO_TOTAL);
 
   var decks = [
-    { name:'NSGY Boards 2024', sub:'Primary board deck &mdash; complete by ~Aug 27', total:BOARDS_TOTAL, done:boardsDone, color:'#3b82f6',
+    { name:'NSGY Boards 2024 Updated', sub:'Anki deck -- all 2656 cards are new. Complete by ~Aug 27.', total:BOARDS_TOTAL, done:boardsDone, color:'#3b82f6',
       order:'Anatomy &rarr; Vascular &rarr; Tumor &rarr; Spine &rarr; Trauma &rarr; Functional &rarr; Neurobiology &rarr; Neurorad &rarr; Periph Nerve &rarr; Peds &rarr; Neuropath &rarr; General' },
-    { name:'Dura Deck &mdash; TR Board Review', sub:'Starts ~Aug 27; finish before Oct 16', total:DURA_TOTAL, done:duraDone, color:'#8b5cf6',
+    { name:'Dura Deck v2: TR Neurosurgery Board Review', sub:'Anki deck -- starts ~Aug 27. Finish before Oct 16.', total:DURA_TOTAL, done:duraDone, color:'#8b5cf6',
       order:'Pathology (705) &rarr; Neurology (403) &rarr; General NSGY (312) &rarr; Peds (222) &rarr; Neurorad Written (159) &rarr; Neurocrit (110) &rarr; Neurooph (59) &rarr; Neurorad Images (57)' },
-    { name:'NSGY Fluoro Prep', sub:'10 cards/day from day 1 &mdash; concurrently', total:FLUORO_TOTAL, done:fluoroDone, color:'#10b981',
-      order:'Run alongside Boards daily. You\'re in the OR &mdash; cards stick immediately.' },
+    { name:'NSGY Fluoro (FluoroPrep)', sub:'Anki deck -- 10 new/day from day 1, run concurrently.', total:FLUORO_TOTAL, done:fluoroDone, color:'#10b981',
+      order:'Run alongside Boards every single day. OR context makes these stick immediately.' },
   ];
   document.getElementById('deckProg').innerHTML = decks.map(function(dk) {
     var pct2 = Math.round(dk.done/dk.total*100);
@@ -237,7 +330,6 @@ function renderStats() {
   }).join('');
 }
 
-// ---- CALENDAR ----
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var DOW = ['S','M','T','W','T','F','S'];
 
@@ -261,7 +353,6 @@ function renderCalendar() {
       var isToday  = s === todayStr;
       var isFuture = s > todayStr;
       var outside  = (type === 'outside');
-
       var cls = 'day ' + (outside ? 'outside' : type);
       if (!outside && isPast)  cls += ' past';
       if (isToday) cls += ' todayring';
@@ -271,13 +362,11 @@ function renderCalendar() {
       }
       var clickable = (!outside && tgt > 0 && !isFuture) ? ' clickable' : '';
       var onclick   = clickable ? ' onclick="logDay(\''+s+'\','+tgt+')"' : '';
-
       var chk = '';
       if (!outside && done > 0 && !isFuture) {
         chk = '<span class="chk">'+(done>=tgt ? '&#10003;' : done)+'</span>';
       }
       var tgtLbl = (!outside && tgt > 0) ? '<span class="tgt">'+tgt+'</span>' : '';
-
       cells += '<div class="'+cls+clickable+'"'+onclick+'>'+
         '<span class="dn">'+day+'</span>'+tgtLbl+chk+'</div>';
     }
@@ -303,90 +392,82 @@ function logDay(s, tgt) {
   renderStats();
 }
 
-// ---- WEEKLY CURRICULUM ----
 var WEEKS = [
-  { w:1,  dates:'Jun 29&ndash;Jul 5',  topic:'Lumbar Spine',            detail:'Stenosis, disc herniation, radiculopathy, cauda equina syndrome, TLICS', deck:'boards' },
-  { w:2,  dates:'Jul 6&ndash;Jul 12',  topic:'Cervical Spine',           detail:'Myelopathy, radiculopathy, ACDF vs ACDR, Laminoplasty vs Laminectomy', deck:'boards' },
-  { w:3,  dates:'Jul 13&ndash;Jul 19', topic:'Cerebrovascular I',        detail:'Aneurysm: H&amp;H/Fisher/WFNS grading, clipping vs coiling, vasospasm Rx', deck:'boards' },
-  { w:4,  dates:'Jul 20&ndash;Jul 26', topic:'Cerebrovascular II',       detail:'AVM: Spetzler-Martin, cavernous malformations, dural AVF classification', deck:'boards' },
-  { w:5,  dates:'Jul 27&ndash;Aug 2',  topic:'Neuro-Oncology I',         detail:'Glioma WHO classification, IDH, MGMT, 1p/19q, eloquent mapping, TTF', deck:'boards' },
-  { w:6,  dates:'Aug 3&ndash;Aug 9',   topic:'VACATION',                 detail:'Reviews only &mdash; maintain streak, 15 cards/day optional', deck:'vac' },
-  { w:7,  dates:'Aug 10&ndash;Aug 16', topic:'Neuro-Oncology II',        detail:'Meningioma (Simpson grade), pituitary adenoma, acoustic neuroma, mets', deck:'boards' },
-  { w:8,  dates:'Aug 17&ndash;Aug 23', topic:'Peripheral Nerve',         detail:'Entrapment syndromes, EMG interpretation, brachial plexus, nerve transfers', deck:'boards' },
-  { w:9,  dates:'Aug 24&ndash;Aug 30', topic:'Head Trauma',              detail:'TBI severity, Monroe-Kellie, ICP mgmt, SDH vs EDH vs DAI, Cushing triad', deck:'both' },
-  { w:10, dates:'Aug 31&ndash;Sep 6',  topic:'Spine Trauma',             detail:'ASIA classification, cord syndromes (central/anterior/Brown-Sequard), odontoid fx', deck:'dura' },
-  { w:11, dates:'Sep 7&ndash;Sep 13',  topic:'Functional Neurosurgery',  detail:'DBS targets (STN, GPi, VIM), SCS, TN management, MCS, hemifacial spasm', deck:'dura' },
-  { w:12, dates:'Sep 14&ndash;Sep 20', topic:'Epilepsy + Neurobiology',  detail:'Seizure classification, AED pharmacology, surgical epilepsy, ECoG, SEEG', deck:'dura' },
-  { w:13, dates:'Sep 21&ndash;Sep 27', topic:'Neuroradiology',           detail:'MRI sequences (T1/T2/FLAIR/DWI/SWI), DSA interpretation, CT angio pearls', deck:'dura' },
-  { w:14, dates:'Sep 28&ndash;Oct 4',  topic:'Pediatric Neurosurgery',   detail:'Chiari, tethered cord, hydrocephalus, medulloblastoma, DIPG, craniosynostosis', deck:'dura' },
-  { w:15, dates:'Oct 5&ndash;Oct 12',  topic:'Neuropathology',           detail:'Tumor histology, frozen section pearls, IDH1 R132H, GFAP, Ki-67', deck:'dura' },
-  { w:16, dates:'Oct 13&ndash;Oct 16', topic:'Review + Mock Exam',       detail:'SANS timed practice exam; audit weakest Anki tags; relearn flagged cards', deck:'dura' },
+  { w:'P', dates:'Jun 23-28', topic:'Pre-VA Ramp-Up', detail:'Start Boards from day 1. Build the habit before VA demands hit. 50/day weekdays, 60/day Sat+Sun (no call yet).', deck:'boards' },
+  { w:1,   dates:'Jun 29-Jul 5',  topic:'Lumbar Spine', detail:'Stenosis, disc herniation, radiculopathy, cauda equina, TLICS. These are your bread-and-butter VA cases.', deck:'boards' },
+  { w:2,   dates:'Jul 6-12',  topic:'Cervical Spine', detail:'Myelopathy, radiculopathy, ACDF vs ACDR, Laminoplasty vs Laminectomy, JOA/Nurick scales.', deck:'boards' },
+  { w:3,   dates:'Jul 13-19', topic:'Cerebrovascular I', detail:'Aneurysm: H&amp;H/Fisher/WFNS grading, clipping vs coiling (ISAT), vasospasm Rx, triple-H therapy.', deck:'boards' },
+  { w:4,   dates:'Jul 20-26', topic:'Cerebrovascular II', detail:'AVM: Spetzler-Martin grading, cavernous malformations, dural AVF (Borden/Cognard classification).', deck:'boards' },
+  { w:5,   dates:'Jul 27-Aug 2', topic:'Neuro-Oncology I', detail:'WHO 2021 glioma classification, IDH, MGMT, 1p/19q, TERT, H3K27M, eloquent mapping, awake craniotomy indications.', deck:'boards' },
+  { w:6,   dates:'Aug 3-9', topic:'VACATION', detail:'Reviews only -- 15 new/day optional. Maintain streak. Rest and consolidate.', deck:'vac' },
+  { w:7,   dates:'Aug 10-16', topic:'Neuro-Oncology II', detail:'Meningioma (Simpson grade), pituitary adenoma (Hardy/Knosp), acoustic neuroma (Koos/AAO-HNS), cerebral mets.', deck:'boards' },
+  { w:8,   dates:'Aug 17-23', topic:'Peripheral Nerve', detail:'Entrapment syndromes, EMG interpretation, brachial plexus anatomy, nerve transfers, Sunderland/Seddon classification.', deck:'boards' },
+  { w:9,   dates:'Aug 24-30', topic:'Head Trauma', detail:'TBI severity, Monroe-Kellie, ICP targets, SDH vs EDH vs DAI, Cushing triad. Switch to Dura TR this week.', deck:'both' },
+  { w:10,  dates:'Aug 31-Sep 6', topic:'Spine Trauma', detail:'ASIA classification, cord syndromes, odontoid fractures (Anderson-D\'Alonzo), Subaxial SLIC, TLICS scoring.', deck:'dura' },
+  { w:11,  dates:'Sep 7-13', topic:'Functional Neurosurgery', detail:'DBS targets (STN, GPi, VIM, Cm-Pf), SCS, TN management (MVD vs SRS), hemifacial spasm, MCS.', deck:'dura' },
+  { w:12,  dates:'Sep 14-20', topic:'Epilepsy + Neurobiology', detail:'ILAE 2017 seizure classification, AED pharmacology, surgical epilepsy evaluation, ECoG, SEEG, VNS.', deck:'dura' },
+  { w:13,  dates:'Sep 21-27', topic:'Neuroradiology', detail:'MRI sequences (T1/T2/FLAIR/DWI/SWI/PWI), DSA interpretation, CT angio pearls, intracranial pressure on MRI.', deck:'dura' },
+  { w:14,  dates:'Sep 28-Oct 4', topic:'Pediatric Neurosurgery', detail:'Chiari I vs II, tethered cord, hydrocephalus types, medulloblastoma (4 subtypes), DIPG, craniosynostosis.', deck:'dura' },
+  { w:15,  dates:'Oct 5-12', topic:'Neuropathology', detail:'Tumor histology, frozen section pearls, IDH1 R132H immunostain, GFAP, Ki-67 cutoffs, synaptophysin, EMA.', deck:'dura' },
+  { w:16,  dates:'Oct 13-16', topic:'Review + Mock Exam', detail:'Full timed SANS exam. Audit weakest Anki tags (longest intervals = most lapsed). Rest before LPCH.', deck:'dura' },
 ];
 var deckBadge = {
-  boards: '<span class="badge b-boards">NSGY Boards</span>',
-  dura:   '<span class="badge b-dura">Dura TR</span>',
-  vac:    '<span class="badge b-vac">Vacation</span>',
-  both:   '<span class="badge b-both">Boards &rarr; Dura</span>',
+  boards:'<span class="badge b-boards">NSGY Boards</span>',
+  dura:'<span class="badge b-dura">Dura TR</span>',
+  vac:'<span class="badge b-vac">Vacation</span>',
+  both:'<span class="badge b-both">Boards&rarr;Dura</span>',
 };
 function renderWeeks() {
   document.getElementById('weekTbl').innerHTML = WEEKS.map(function(w) {
-    return '<tr><td style="font-weight:700;color:#334155;white-space:nowrap">Wk '+w.w+'</td>'+
-      '<td style="white-space:nowrap;color:#64748b">'+w.dates+'</td>'+
+    return '<tr>'+
+      '<td style="font-weight:700;color:#334155;white-space:nowrap">'+w.w+'</td>'+
+      '<td style="white-space:nowrap;color:#64748b;font-size:10px">'+w.dates+'</td>'+
       '<td><strong>'+w.topic+'</strong><br><span style="color:#64748b;font-size:10px">'+w.detail+'</span></td>'+
-      '<td style="white-space:nowrap">'+(deckBadge[w.deck]||'')+'</td></tr>';
+      '<td>'+(deckBadge[w.deck]||'')+'</td>'+
+      '</tr>';
   }).join('');
 }
 
-// ---- RESOURCES ----
 var RES = [
-  { name:'SANS &mdash; CNS Self-Assessment',
-    url:'https://www.cns.org',
-    desc:'Official CNS board prep Q-bank. Closest thing to the real ABNS written exam format &mdash; image-based vignettes, detailed explanations. CNS membership required. Navigate: Education &rarr; SANS.',
-    tag:'Board Prep' },
-  { name:'AANS eLearning Center',
-    url:'https://www.aans.org',
-    desc:'Neurosurgical condition videos, webinars, and CME modules. Great for pre-op prep the night before a VA case. Navigate: Education &rarr; eLearning.',
-    tag:'Video + CME' },
-  { name:'Rhoton Anatomy Collection',
-    url:'https://rhoton.ineurodb.org',
-    desc:'Full Rhoton cranial dissection atlas &mdash; free to access. Pairs directly with the Rhoton Top 100 slides in your Dura Deck. Use before any cranial case.',
-    tag:'Anatomy' },
-  { name:'Neurosurgery (Oxford Journal)',
-    url:'https://academic.oup.com/neurosurgery',
-    desc:'Primary NSGY journal. Stanford library gives full access via PubMed link. Read 1 landmark paper per weekly topic (e.g., ISAT for coiling, RTOG for tumor grading).',
-    tag:'Literature' },
-  { name:'Journal of Neurosurgery Group',
-    url:'https://thejns.org',
-    desc:'JNS, JNS Spine, JNS Pediatrics &mdash; landmark papers for every board domain. Filter by topic to match weekly curriculum.',
-    tag:'Literature' },
-  { name:'Greenberg Manual (AccessSurgery)',
-    url:'https://accesssurgery.mhmedical.com',
-    desc:'Greenberg Manual of Neurosurgery online &mdash; source text for the entire Dura Deck. Stanford library access. Open the relevant chapter during your weekly deep-dive.',
-    tag:'Textbook' },
-  { name:'Operative Neurosurgery Journal',
-    url:'https://academic.oup.com/operativeneurosurgery',
-    desc:'Step-by-step operative technique articles with intraoperative photos. Watch/read relevant technique the night before each VA case. Free with Stanford library access.',
-    tag:'Operative' },
-  { name:'CNS Annual Meeting OnDemand',
-    url:'https://www.cns.org',
-    desc:'CNS annual meeting recorded talks available to members. High-yield 15-min review talks mapped to every board topic. Especially useful for Functional and Vascular.',
-    tag:'CME' },
-  { name:'Neurosurgery Podcast',
-    url:'https://www.aans.org',
-    desc:'AANS produces neurosurgery-focused audio content. Use during commute or gym. Also search "Neurosurgery Podcast" on Apple/Spotify for Stanford-affiliated episodes.',
-    tag:'Audio' },
+  { name:'SANS &mdash; CNS Self-Assessment', url:'https://www.cns.org',
+    desc:'Official CNS board Q-bank. Image-based vignettes + oral board style. CNS membership required. Navigate: Education &rarr; SANS.',
+    when:'20 questions every week on any topic. Week 16: full timed mock exam.', tag:'Board Prep' },
+  { name:'Greenberg Manual (AccessSurgery)', url:'https://accesssurgery.mhmedical.com',
+    desc:'Greenberg Manual online &mdash; source text for the entire Dura Deck. Stanford library access.',
+    when:'Sunday evenings: open the chapter for next week\'s topic. Skim headings + memorize 3 key numbers (15 min).', tag:'Textbook' },
+  { name:'Rhoton Anatomy Collection', url:'https://rhoton.ineurodb.org',
+    desc:'Full Rhoton cranial dissection atlas &mdash; free to access. Pairs with Dura Deck Neuroanatomy subdeck (Rhoton Top 100).',
+    when:'Night before any cranial case. 5 minutes to orient to the anatomy you\'ll see tomorrow.', tag:'Anatomy' },
+  { name:'Operative Neurosurgery Journal', url:'https://academic.oup.com/operativeneurosurgery',
+    desc:'Step-by-step operative technique papers with intraoperative photos. Free with Stanford library access.',
+    when:'Night before a new approach at the VA. 10-min read = better understanding of what you\'re doing.', tag:'Operative' },
+  { name:'Neurosurgery (Oxford Journal)', url:'https://academic.oup.com/neurosurgery',
+    desc:'Primary NSGY journal. Stanford PubMed link gives full access. One landmark paper per weekly topic.',
+    when:'After weekly deep-dive: read the defining trial for that topic (ISAT, SPORT, RTOG 0825, etc.).', tag:'Literature' },
+  { name:'Journal of Neurosurgery Group', url:'https://thejns.org',
+    desc:'JNS, JNS Spine, JNS Pediatrics. Best source for spine and peds landmark papers.',
+    when:'Same as Neurosurgery journal -- one key paper per weekly topic, abstract + conclusions minimum.', tag:'Literature' },
+  { name:'AANS eLearning Center', url:'https://www.aans.org',
+    desc:'Neurosurgery training videos, webinars, and CME modules. Navigate: Education &rarr; eLearning.',
+    when:'Post-call days when you cannot focus on Anki. Passive video exposure still counts.', tag:'Video + CME' },
+  { name:'CNS Annual Meeting OnDemand', url:'https://www.cns.org',
+    desc:'CNS meeting recorded talks available to members. 15-min high-yield talks for every board topic.',
+    when:'Weeks 3-4 (Vascular) and Week 11 (Functional) especially -- more current than Greenberg.', tag:'CME' },
+  { name:'Neurosurgery Podcast', url:'https://www.aans.org',
+    desc:'AANS audio content. Also search "Neurosurgery Podcast" on Apple/Spotify for case-based episodes.',
+    when:'Commute, gym, cooking. Match episode topic to your current weekly curriculum.', tag:'Audio' },
 ];
 function renderRes() {
   document.getElementById('resList').innerHTML = RES.map(function(r) {
     return '<div class="res-card">'+
       '<a class="rname" href="'+r.url+'" target="_blank" rel="noopener">'+r.name+'</a>'+
       '<div class="rdesc">'+r.desc+'</div>'+
+      '<div class="rwhen">When: '+r.when+'</div>'+
       '<span class="rtag">'+r.tag+'</span>'+
       '</div>';
   }).join('');
 }
 
-// ---- INIT ----
 renderStats();
 renderCalendar();
 renderWeeks();
