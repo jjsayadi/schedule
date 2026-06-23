@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGY3 Study Plan &mdash; VA Rotation 2026</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #f1f5f9; color: #1e293b; padding: 36px 20px 72px; }
+
+.header { text-align: center; margin-bottom: 28px; }
+.header h1 { font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -.4px; }
+.header .sub { color: #64748b; font-size: 13px; margin-top: 5px; }
+.header .pace { font-size: 12px; color: #94a3b8; margin-top: 4px; min-height: 18px; }
+
+.stats { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+.stat { background: white; border-radius: 12px; padding: 12px 18px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; min-width: 110px; }
+.stat .num { font-size: 22px; font-weight: 800; color: #0f172a; line-height: 1; }
+.stat .lbl { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: .7px; margin-top: 3px; }
+
+.legend { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.li { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #475569; font-weight: 500; }
+.ld { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+.cal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 960px; margin: 0 auto 26px; }
+.month-card { background: white; border-radius: 13px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+.month-head { background: #f8fafc; padding: 9px 12px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+.month-head span { font-size: 12px; font-weight: 700; color: #334155; }
+.month-body { padding: 8px 8px 10px; }
+.dow-row { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 3px; }
+.dow-row div { text-align: center; font-size: 8px; font-weight: 700; color: #94a3b8; letter-spacing: .4px; text-transform: uppercase; }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+
+.day {
+  aspect-ratio: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-radius: 4px; position: relative; cursor: default;
+  padding: 1px;
+}
+.day.clickable { cursor: pointer; }
+.day.clickable:hover { filter: brightness(.92); }
+.day .dn { font-size: 10px; font-weight: 700; line-height: 1; }
+.day .tgt { font-size: 7px; font-weight: 500; opacity: .8; line-height: 1; margin-top: 1px; }
+.day .chk { font-size: 8px; position: absolute; top: 1px; right: 2px; line-height: 1; }
+
+.day.weekday  { background: #dbeafe; color: #1e40af; }
+.day.free     { background: #dcfce7; color: #166534; }
+.day.vac      { background: #e0f2fe; color: #0c4a6e; }
+.day.sat24h   { background: #fee2e2; color: #991b1b; }
+.day.postcall { background: #fef3c7; color: #92400e; }
+.day.pava     { background: #fed7aa; color: #9a3412; }
+.day.pavasun  { background: #fef9c3; color: #854d0e; }
+.day.outside  { background: transparent; }
+.day.empty    { background: transparent; }
+.day.past     { opacity: .6; }
+.day.todayring { outline: 2px solid #3b82f6; outline-offset: -1px; }
+.day.done     { outline: 2px solid #22c55e !important; outline-offset: -1px; }
+.day.partial  { outline: 2px dashed #f59e0b !important; outline-offset: -1px; }
+
+.decks { max-width: 960px; margin: 0 auto 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.deck-card { background: white; border-radius: 13px; padding: 16px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+.deck-card h3 { font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 2px; }
+.deck-card .ds { font-size: 10px; color: #64748b; margin-bottom: 10px; }
+.pbar { height: 7px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 5px; }
+.pfill { height: 100%; border-radius: 4px; transition: width .4s; }
+.dnums { font-size: 10px; color: #64748b; display: flex; justify-content: space-between; }
+.dorder { font-size: 9px; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
+
+.section { max-width: 960px; margin: 0 auto 26px; background: white; border-radius: 13px; padding: 20px 22px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+.section h2 { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 14px; }
+
+.week-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.week-table th { text-align: left; padding: 5px 8px; background: #f8fafc; color: #64748b; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid #e2e8f0; }
+.week-table td { padding: 7px 8px; border-bottom: 1px solid #f1f5f9; vertical-align: top; color: #334155; }
+.week-table tr:last-child td { border-bottom: none; }
+.badge { display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.b-boards { background: #dbeafe; color: #1e40af; }
+.b-dura   { background: #ede9fe; color: #5b21b6; }
+.b-vac    { background: #e0f2fe; color: #0369a1; }
+.b-both   { background: #fef3c7; color: #92400e; }
+
+.res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.res-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; background: #fafafa; }
+.res-card .rname { font-size: 12px; font-weight: 700; color: #1e40af; text-decoration: none; display: block; margin-bottom: 3px; }
+.res-card .rname:hover { text-decoration: underline; }
+.res-card .rdesc { font-size: 10px; color: #64748b; line-height: 1.5; }
+.res-card .rtag { display: inline-block; margin-top: 6px; font-size: 9px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: #ede9fe; color: #5b21b6; }
+
+.note { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 6px; }
+
+@media (max-width: 720px) {
+  .cal-grid { grid-template-columns: repeat(2, 1fr); }
+  .decks { grid-template-columns: 1fr; }
+  .res-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .cal-grid { grid-template-columns: 1fr; }
+  .res-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PGY3 Study Plan &mdash; VA Rotation</h1>
+  <p class="sub">June 29 &ndash; October 16, 2026 &middot; Stanford PGY3 Neurosurgery</p>
+  <p class="pace" id="paceMsg"></p>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="legend">
+  <div class="li"><div class="ld" style="background:#dbeafe"></div>Weekday (50)</div>
+  <div class="li"><div class="ld" style="background:#dcfce7"></div>Free wknd (60)</div>
+  <div class="li"><div class="ld" style="background:#e0f2fe"></div>Vacation (30)</div>
+  <div class="li"><div class="ld" style="background:#fed7aa"></div>PAVA call Sat (25)</div>
+  <div class="li"><div class="ld" style="background:#fef9c3"></div>Post-PAVA Sun (30)</div>
+  <div class="li"><div class="ld" style="background:#fee2e2"></div>Sat24H (0)</div>
+  <div class="li"><div class="ld" style="background:#fef3c7"></div>Post-call Sun (15)</div>
+  <div class="li" style="gap:6px"><span style="width:11px;height:11px;border:2px solid #22c55e;border-radius:2px;flex-shrink:0;display:inline-block"></span>Done</div>
+  <div class="li" style="gap:6px"><span style="width:11px;height:11px;border:2px dashed #f59e0b;border-radius:2px;flex-shrink:0;display:inline-block"></span>Partial</div>
+</div>
+
+<div class="cal-grid" id="calGrid"></div>
+<p class="note">Click any past or today's date to log how many cards you did.</p>
+
+<div class="decks" id="deckProg"></div>
+
+<div class="section">
+  <h2>Weekly Deep-Dive Curriculum</h2>
+  <table class="week-table">
+    <thead><tr><th>Wk</th><th>Dates</th><th>Topic</th><th>Deck</th><th>30-min Focus</th></tr></thead>
+    <tbody id="weekTbl"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Study Resources</h2>
+  <div class="res-grid" id="resList"></div>
+  <p class="note" style="margin-top:14px">All links require institutional login or membership where noted. Stanford library provides AccessSurgery + journal access.</p>
+</div>
+
+<script>
+// ---- CONFIG ----
+var VA_START = '2026-06-29';
+var VA_END   = '2026-10-16';
+var TOTAL_TARGET = 4860;
+var BOARDS_TOTAL = 2656;
+var DURA_TOTAL   = 2027;
+var FLUORO_TOTAL = 555;
+var BOARDS_DONE_BY = '2026-08-27'; // estimated switchover
+
+// Day type overrides (all weekdays default to 'weekday')
+var DT = {
+  '2026-07-04':'sat24h','2026-07-05':'postcall',
+  '2026-07-11':'free',  '2026-07-12':'free',
+  '2026-07-18':'pava',  '2026-07-19':'pavasun',
+  '2026-07-25':'sat24h','2026-07-26':'postcall',
+  '2026-08-01':'vac','2026-08-02':'vac','2026-08-03':'vac','2026-08-04':'vac',
+  '2026-08-05':'vac','2026-08-06':'vac','2026-08-07':'vac','2026-08-08':'vac','2026-08-09':'vac',
+  '2026-08-15':'free',  '2026-08-16':'free',
+  '2026-08-22':'free',  '2026-08-23':'free',
+  '2026-08-29':'pava',  '2026-08-30':'pavasun',
+  '2026-09-05':'sat24h','2026-09-06':'postcall',
+  '2026-09-12':'free',  '2026-09-13':'free',
+  '2026-09-19':'pava',  '2026-09-20':'pavasun',
+  '2026-09-26':'sat24h','2026-09-27':'postcall',
+  '2026-10-03':'sat24h','2026-10-04':'postcall',
+  '2026-10-10':'free',  '2026-10-11':'free',
+};
+
+var TGTS = { weekday:50, free:60, vac:30, sat24h:0, postcall:15, pava:25, pavasun:30 };
+
+// ---- HELPERS ----
+function pad(n) { return String(n).padStart(2,'0'); }
+function toStr(d) { return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function addDays(d,n) { var r=new Date(d); r.setDate(r.getDate()+n); return r; }
+
+var todayStr = toStr(new Date());
+
+function getType(s) {
+  if (DT[s]) return DT[s];
+  if (s < VA_START || s > VA_END) return 'outside';
+  var dow = new Date(s+'T12:00:00').getDay();
+  if (dow === 0 || dow === 6) return 'outside';
+  return 'weekday';
+}
+function getTarget(s) { return TGTS[getType(s)] || 0; }
+
+// ---- PROGRESS ----
+function load() { try { return JSON.parse(localStorage.getItem('sp_v1')||'{}'); } catch(e) { return {}; } }
+function save(p) { localStorage.setItem('sp_v1', JSON.stringify(p)); }
+var prog = load();
+function totalDone() { return Object.values(prog).reduce(function(a,b){return a+b;},0); }
+
+// ---- STATS ----
+function renderStats() {
+  var done = totalDone();
+  var today = new Date(); today.setHours(12,0,0,0);
+  var vaEnd = new Date(VA_END+'T12:00:00');
+  var daysLeft = Math.max(0, Math.round((vaEnd-today)/86400000));
+  var remaining = Math.max(0, TOTAL_TARGET - done);
+  var pace = daysLeft > 0 ? Math.ceil(remaining/daysLeft) : 0;
+
+  document.getElementById('paceMsg').textContent =
+    daysLeft + ' days remaining -- need ' + pace + ' cards/day to finish on target';
+
+  var pct = Math.min(100, Math.round(done/TOTAL_TARGET*100));
+  document.getElementById('stats').innerHTML =
+    '<div class="stat"><div class="num">'+done.toLocaleString()+'</div><div class="lbl">Cards Done</div></div>'+
+    '<div class="stat"><div class="num">'+remaining.toLocaleString()+'</div><div class="lbl">Remaining</div></div>'+
+    '<div class="stat"><div class="num">'+daysLeft+'</div><div class="lbl">Days Left</div></div>'+
+    '<div class="stat"><div class="num">'+pct+'%</div><div class="lbl">Complete</div></div>'+
+    '<div class="stat"><div class="num">'+pace+'</div><div class="lbl">Cards/Day Needed</div></div>';
+
+  var boardsDone = Math.min(done, BOARDS_TOTAL);
+  var duraDone   = Math.max(0, Math.min(done - BOARDS_TOTAL, DURA_TOTAL));
+  var fluoroDone = Math.min(Math.round(done * FLUORO_TOTAL / TOTAL_TARGET), FLUORO_TOTAL);
+
+  var decks = [
+    { name:'NSGY Boards 2024', sub:'Primary board deck &mdash; complete by ~Aug 27', total:BOARDS_TOTAL, done:boardsDone, color:'#3b82f6',
+      order:'Anatomy &rarr; Vascular &rarr; Tumor &rarr; Spine &rarr; Trauma &rarr; Functional &rarr; Neurobiology &rarr; Neurorad &rarr; Periph Nerve &rarr; Peds &rarr; Neuropath &rarr; General' },
+    { name:'Dura Deck &mdash; TR Board Review', sub:'Starts ~Aug 27; finish before Oct 16', total:DURA_TOTAL, done:duraDone, color:'#8b5cf6',
+      order:'Pathology (705) &rarr; Neurology (403) &rarr; General NSGY (312) &rarr; Peds (222) &rarr; Neurorad Written (159) &rarr; Neurocrit (110) &rarr; Neurooph (59) &rarr; Neurorad Images (57)' },
+    { name:'NSGY Fluoro Prep', sub:'10 cards/day from day 1 &mdash; concurrently', total:FLUORO_TOTAL, done:fluoroDone, color:'#10b981',
+      order:'Run alongside Boards daily. You\'re in the OR &mdash; cards stick immediately.' },
+  ];
+  document.getElementById('deckProg').innerHTML = decks.map(function(dk) {
+    var pct2 = Math.round(dk.done/dk.total*100);
+    return '<div class="deck-card">'+
+      '<h3>'+dk.name+'</h3>'+
+      '<div class="ds">'+dk.sub+'</div>'+
+      '<div class="pbar"><div class="pfill" style="width:'+pct2+'%;background:'+dk.color+'"></div></div>'+
+      '<div class="dnums"><span>'+dk.done.toLocaleString()+' / '+dk.total.toLocaleString()+'</span><span>'+pct2+'%</span></div>'+
+      '<div class="dorder">'+dk.order+'</div>'+
+      '</div>';
+  }).join('');
+}
+
+// ---- CALENDAR ----
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DOW = ['S','M','T','W','T','F','S'];
+
+function renderCalendar() {
+  var calMonths = [{y:2026,m:5},{y:2026,m:6},{y:2026,m:7},{y:2026,m:8},{y:2026,m:9}];
+  var grid = document.getElementById('calGrid');
+  grid.innerHTML = calMonths.map(function(mo) {
+    var y = mo.y, m = mo.m;
+    var first = new Date(y, m, 1);
+    var last  = new Date(y, m+1, 0).getDate();
+    var startDow = first.getDay();
+    var cells = '';
+    for (var i=0;i<startDow;i++) cells += '<div class="day empty"></div>';
+    for (var day=1;day<=last;day++) {
+      var dd = new Date(y,m,day); dd.setHours(12,0,0,0);
+      var s = toStr(dd);
+      var type = getType(s);
+      var tgt  = getTarget(s);
+      var done = prog[s] || 0;
+      var isPast   = s < todayStr;
+      var isToday  = s === todayStr;
+      var isFuture = s > todayStr;
+      var outside  = (type === 'outside');
+
+      var cls = 'day ' + (outside ? 'outside' : type);
+      if (!outside && isPast)  cls += ' past';
+      if (isToday) cls += ' todayring';
+      if (!outside && tgt > 0 && !isFuture) {
+        if (done >= tgt) cls += ' done';
+        else if (done > 0) cls += ' partial';
+      }
+      var clickable = (!outside && tgt > 0 && !isFuture) ? ' clickable' : '';
+      var onclick   = clickable ? ' onclick="logDay(\''+s+'\','+tgt+')"' : '';
+
+      var chk = '';
+      if (!outside && done > 0 && !isFuture) {
+        chk = '<span class="chk">'+(done>=tgt ? '&#10003;' : done)+'</span>';
+      }
+      var tgtLbl = (!outside && tgt > 0) ? '<span class="tgt">'+tgt+'</span>' : '';
+
+      cells += '<div class="'+cls+clickable+'"'+onclick+'>'+
+        '<span class="dn">'+day+'</span>'+tgtLbl+chk+'</div>';
+    }
+    return '<div class="month-card">'+
+      '<div class="month-head"><span>'+MONTHS[m]+' '+y+'</span></div>'+
+      '<div class="month-body">'+
+      '<div class="dow-row">'+DOW.map(function(d){return '<div>'+d+'</div>';}).join('')+'</div>'+
+      '<div class="days">'+cells+'</div>'+
+      '</div></div>';
+  }).join('');
+}
+
+function logDay(s, tgt) {
+  if (s > todayStr) return;
+  var cur = prog[s] || 0;
+  var inp = prompt('Cards done on '+s+'?\nTarget: '+tgt+'\nCurrent: '+cur, cur || tgt);
+  if (inp === null) return;
+  var val = parseInt(inp);
+  if (isNaN(val) || val < 0) return;
+  if (val === 0) { delete prog[s]; } else { prog[s] = val; }
+  save(prog);
+  renderCalendar();
+  renderStats();
+}
+
+// ---- WEEKLY CURRICULUM ----
+var WEEKS = [
+  { w:1,  dates:'Jun 29&ndash;Jul 5',  topic:'Lumbar Spine',            detail:'Stenosis, disc herniation, radiculopathy, cauda equina syndrome, TLICS', deck:'boards' },
+  { w:2,  dates:'Jul 6&ndash;Jul 12',  topic:'Cervical Spine',           detail:'Myelopathy, radiculopathy, ACDF vs ACDR, Laminoplasty vs Laminectomy', deck:'boards' },
+  { w:3,  dates:'Jul 13&ndash;Jul 19', topic:'Cerebrovascular I',        detail:'Aneurysm: H&amp;H/Fisher/WFNS grading, clipping vs coiling, vasospasm Rx', deck:'boards' },
+  { w:4,  dates:'Jul 20&ndash;Jul 26', topic:'Cerebrovascular II',       detail:'AVM: Spetzler-Martin, cavernous malformations, dural AVF classification', deck:'boards' },
+  { w:5,  dates:'Jul 27&ndash;Aug 2',  topic:'Neuro-Oncology I',         detail:'Glioma WHO classification, IDH, MGMT, 1p/19q, eloquent mapping, TTF', deck:'boards' },
+  { w:6,  dates:'Aug 3&ndash;Aug 9',   topic:'VACATION',                 detail:'Reviews only &mdash; maintain streak, 15 cards/day optional', deck:'vac' },
+  { w:7,  dates:'Aug 10&ndash;Aug 16', topic:'Neuro-Oncology II',        detail:'Meningioma (Simpson grade), pituitary adenoma, acoustic neuroma, mets', deck:'boards' },
+  { w:8,  dates:'Aug 17&ndash;Aug 23', topic:'Peripheral Nerve',         detail:'Entrapment syndromes, EMG interpretation, brachial plexus, nerve transfers', deck:'boards' },
+  { w:9,  dates:'Aug 24&ndash;Aug 30', topic:'Head Trauma',              detail:'TBI severity, Monroe-Kellie, ICP mgmt, SDH vs EDH vs DAI, Cushing triad', deck:'both' },
+  { w:10, dates:'Aug 31&ndash;Sep 6',  topic:'Spine Trauma',             detail:'ASIA classification, cord syndromes (central/anterior/Brown-Sequard), odontoid fx', deck:'dura' },
+  { w:11, dates:'Sep 7&ndash;Sep 13',  topic:'Functional Neurosurgery',  detail:'DBS targets (STN, GPi, VIM), SCS, TN management, MCS, hemifacial spasm', deck:'dura' },
+  { w:12, dates:'Sep 14&ndash;Sep 20', topic:'Epilepsy + Neurobiology',  detail:'Seizure classification, AED pharmacology, surgical epilepsy, ECoG, SEEG', deck:'dura' },
+  { w:13, dates:'Sep 21&ndash;Sep 27', topic:'Neuroradiology',           detail:'MRI sequences (T1/T2/FLAIR/DWI/SWI), DSA interpretation, CT angio pearls', deck:'dura' },
+  { w:14, dates:'Sep 28&ndash;Oct 4',  topic:'Pediatric Neurosurgery',   detail:'Chiari, tethered cord, hydrocephalus, medulloblastoma, DIPG, craniosynostosis', deck:'dura' },
+  { w:15, dates:'Oct 5&ndash;Oct 12',  topic:'Neuropathology',           detail:'Tumor histology, frozen section pearls, IDH1 R132H, GFAP, Ki-67', deck:'dura' },
+  { w:16, dates:'Oct 13&ndash;Oct 16', topic:'Review + Mock Exam',       detail:'SANS timed practice exam; audit weakest Anki tags; relearn flagged cards', deck:'dura' },
+];
+var deckBadge = {
+  boards: '<span class="badge b-boards">NSGY Boards</span>',
+  dura:   '<span class="badge b-dura">Dura TR</span>',
+  vac:    '<span class="badge b-vac">Vacation</span>',
+  both:   '<span class="badge b-both">Boards &rarr; Dura</span>',
+};
+function renderWeeks() {
+  document.getElementById('weekTbl').innerHTML = WEEKS.map(function(w) {
+    return '<tr><td style="font-weight:700;color:#334155;white-space:nowrap">Wk '+w.w+'</td>'+
+      '<td style="white-space:nowrap;color:#64748b">'+w.dates+'</td>'+
+      '<td><strong>'+w.topic+'</strong><br><span style="color:#64748b;font-size:10px">'+w.detail+'</span></td>'+
+      '<td style="white-space:nowrap">'+(deckBadge[w.deck]||'')+'</td></tr>';
+  }).join('');
+}
+
+// ---- RESOURCES ----
+var RES = [
+  { name:'SANS &mdash; CNS Self-Assessment',
+    url:'https://www.cns.org',
+    desc:'Official CNS board prep Q-bank. Closest thing to the real ABNS written exam format &mdash; image-based vignettes, detailed explanations. CNS membership required. Navigate: Education &rarr; SANS.',
+    tag:'Board Prep' },
+  { name:'AANS eLearning Center',
+    url:'https://www.aans.org',
+    desc:'Neurosurgical condition videos, webinars, and CME modules. Great for pre-op prep the night before a VA case. Navigate: Education &rarr; eLearning.',
+    tag:'Video + CME' },
+  { name:'Rhoton Anatomy Collection',
+    url:'https://rhoton.ineurodb.org',
+    desc:'Full Rhoton cranial dissection atlas &mdash; free to access. Pairs directly with the Rhoton Top 100 slides in your Dura Deck. Use before any cranial case.',
+    tag:'Anatomy' },
+  { name:'Neurosurgery (Oxford Journal)',
+    url:'https://academic.oup.com/neurosurgery',
+    desc:'Primary NSGY journal. Stanford library gives full access via PubMed link. Read 1 landmark paper per weekly topic (e.g., ISAT for coiling, RTOG for tumor grading).',
+    tag:'Literature' },
+  { name:'Journal of Neurosurgery Group',
+    url:'https://thejns.org',
+    desc:'JNS, JNS Spine, JNS Pediatrics &mdash; landmark papers for every board domain. Filter by topic to match weekly curriculum.',
+    tag:'Literature' },
+  { name:'Greenberg Manual (AccessSurgery)',
+    url:'https://accesssurgery.mhmedical.com',
+    desc:'Greenberg Manual of Neurosurgery online &mdash; source text for the entire Dura Deck. Stanford library access. Open the relevant chapter during your weekly deep-dive.',
+    tag:'Textbook' },
+  { name:'Operative Neurosurgery Journal',
+    url:'https://academic.oup.com/operativeneurosurgery',
+    desc:'Step-by-step operative technique articles with intraoperative photos. Watch/read relevant technique the night before each VA case. Free with Stanford library access.',
+    tag:'Operative' },
+  { name:'CNS Annual Meeting OnDemand',
+    url:'https://www.cns.org',
+    desc:'CNS annual meeting recorded talks available to members. High-yield 15-min review talks mapped to every board topic. Especially useful for Functional and Vascular.',
+    tag:'CME' },
+  { name:'Neurosurgery Podcast',
+    url:'https://www.aans.org',
+    desc:'AANS produces neurosurgery-focused audio content. Use during commute or gym. Also search "Neurosurgery Podcast" on Apple/Spotify for Stanford-affiliated episodes.',
+    tag:'Audio' },
+];
+function renderRes() {
+  document.getElementById('resList').innerHTML = RES.map(function(r) {
+    return '<div class="res-card">'+
+      '<a class="rname" href="'+r.url+'" target="_blank" rel="noopener">'+r.name+'</a>'+
+      '<div class="rdesc">'+r.desc+'</div>'+
+      '<span class="rtag">'+r.tag+'</span>'+
+      '</div>';
+  }).join('');
+}
+
+// ---- INIT ----
+renderStats();
+renderCalendar();
+renderWeeks();
+renderRes();
+</script>
+</body>
+</html>
