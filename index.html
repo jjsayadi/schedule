@@ -133,6 +133,24 @@
     .header h1 { font-size: 24px; }
   }
 
+  /* Calendar day -- events linking */
+  html { scroll-behavior: smooth; }
+  .day.off, .day.vac { cursor: pointer; }
+  .day.off:hover, .day.vac:hover { filter: brightness(.87); }
+  .day.off::after, .day.vac::after {
+    content: '';
+    position: absolute; bottom: 2px; right: 2px;
+    width: 3px; height: 3px; border-radius: 50%;
+    background: rgba(59,130,246,.6);
+  }
+  @keyframes grp-flash {
+    0%,15% { outline: 2px solid #3b82f6; outline-offset: 5px; }
+    100%   { outline: 2px solid transparent; outline-offset: 5px; }
+  }
+  .grp-flash { animation: grp-flash 1.5s ease-out forwards; border-radius: 6px; }
+  .back-to-cal { font-size: 11px; color: #94a3b8; text-decoration: none; float: right; margin-top: 2px; }
+  .back-to-cal:hover { color: #3b82f6; }
+
   /* Study Plan link banner */
   .sp-banner {
     max-width: 880px; margin: 20px auto 0; background: #eff6ff;
@@ -207,12 +225,12 @@
 </div>
 
 <div class="events-section">
-  <h3>Bay Area Events &amp; Weekend Ideas</h3>
-  <p class="evtnote">Matched to your vacation blocks and free weekends. Verify exact 2026-27 dates before booking. Ask Claude to refresh any time.</p>
+  <h3>Bay Area Events &amp; Weekend Ideas <a class="back-to-cal" href="#calGrid">&#8593; back to calendar</a></h3>
+  <p class="evtnote">Click any free weekend or vacation day on the calendar above to jump to the relevant section. Verify exact 2026-27 dates before booking.</p>
 
   <div class="evt-groups">
 
-    <div>
+    <div id="evt-aug">
       <div class="evt-group-title">Vacation Block 1 &mdash; Aug 1-9</div>
       <div class="evt-cards">
         <div class="ec japan">
@@ -248,7 +266,7 @@
       </div>
     </div>
 
-    <div>
+    <div id="evt-oct">
       <div class="evt-group-title">Oct 10-11 Free Weekend</div>
       <div class="evt-cards">
         <div class="ec music">
@@ -272,7 +290,7 @@
       </div>
     </div>
 
-    <div>
+    <div id="evt-dec">
       <div class="evt-group-title">Vacation Block 2 &mdash; Dec 5-13</div>
       <div class="evt-cards">
         <div class="ec film">
@@ -302,7 +320,7 @@
       </div>
     </div>
 
-    <div>
+    <div id="evt-feb">
       <div class="evt-group-title">Vacation Block 3 &mdash; Feb 6-14</div>
       <div class="evt-cards">
         <div class="ec japan">
@@ -332,7 +350,7 @@
       </div>
     </div>
 
-    <div>
+    <div id="evt-apr">
       <div class="evt-group-title">Vacation Block 4 &mdash; Apr 17-25</div>
       <div class="evt-cards">
         <div class="ec japan">
@@ -362,7 +380,7 @@
       </div>
     </div>
 
-    <div>
+    <div id="evt-standbys">
       <div class="evt-group-title">Free Weekends &mdash; Year-Round Standbys</div>
       <div class="evt-cards">
         <div class="ec comedy">
@@ -666,6 +684,31 @@ async function syncGCal() {
     console.warn('GCal sync:', e);
   }
 }
+
+// ==========================================================
+// CALENDAR DAY -> EVENTS SECTION NAVIGATION
+// ==========================================================
+function getEventSectionId(s) {
+  if (s >= '2026-08-01' && s <= '2026-08-09') return 'evt-aug';
+  if (s >= '2026-10-10' && s <= '2026-10-11') return 'evt-oct';
+  if (s >= '2026-12-05' && s <= '2026-12-13') return 'evt-dec';
+  if (s >= '2027-02-06' && s <= '2027-02-14') return 'evt-feb';
+  if (s >= '2027-04-17' && s <= '2027-04-25') return 'evt-apr';
+  return 'evt-standbys';
+}
+document.getElementById('calGrid').addEventListener('click', function(e) {
+  var day = e.target.closest('.day');
+  if (!day) return;
+  var base = day.dataset.base;
+  if (base !== 'off' && base !== 'vac') return;
+  var date = day.dataset.date;
+  if (!date) return;
+  var el = document.getElementById(getEventSectionId(date));
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.classList.add('grp-flash');
+  setTimeout(function() { el.classList.remove('grp-flash'); }, 1500);
+});
 
 syncGCal();
 </script>
