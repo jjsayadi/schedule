@@ -112,6 +112,31 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
   .cal-grid { grid-template-columns: 1fr; }
   .res-grid { grid-template-columns: 1fr; }
 }
+
+/* Bay Area Events */
+.evt-groups { display: flex; flex-direction: column; gap: 20px; }
+.evt-group-title { font-size: 11px; font-weight: 800; color: #334155; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #e2e8f0; }
+.evt-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.ec { border-radius: 8px; padding: 10px 12px; background: #fafafa; border: 1px solid #e2e8f0; border-left: 3px solid #cbd5e1; }
+.ec.music   { border-left-color: #3b82f6; }
+.ec.japan   { border-left-color: #ef4444; }
+.ec.comedy  { border-left-color: #f59e0b; }
+.ec.film    { border-left-color: #8b5cf6; }
+.ec.food    { border-left-color: #10b981; }
+.ec.nature  { border-left-color: #06b6d4; }
+.ec .etit   { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+.ec .eloc   { font-size: 10px; color: #64748b; margin-bottom: 4px; }
+.ec .edesc  { font-size: 10px; color: #475569; line-height: 1.5; }
+.ec .etag   { display: inline-block; margin-top: 5px; font-size: 9px; font-weight: 700; padding: 1px 7px; border-radius: 999px; }
+.etag.music   { background: #dbeafe; color: #1e40af; }
+.etag.japan   { background: #fee2e2; color: #991b1b; }
+.etag.comedy  { background: #fef3c7; color: #92400e; }
+.etag.film    { background: #ede9fe; color: #5b21b6; }
+.etag.food    { background: #dcfce7; color: #166534; }
+.etag.nature  { background: #e0f2fe; color: #0369a1; }
+.evt-repopulate { font-size: 11px; color: #94a3b8; margin-top: 14px; font-style: italic; }
+@media (max-width: 720px) { .evt-cards { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 480px) { .evt-cards { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -203,6 +228,208 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Ar
   <h2>Study Resources</h2>
   <div class="res-grid" id="resList"></div>
   <p class="note" style="margin-top:14px">Stanford library covers AccessSurgery + journals. SANS requires CNS membership.</p>
+</div>
+
+<div class="section">
+  <h2>Bay Area Events &amp; Weekend Ideas</h2>
+  <p class="evtnote" style="font-size:11px;color:#64748b;margin-bottom:16px">Matched to your off weekends and vacation blocks. Verify exact 2026-27 dates before booking. Ask Claude to refresh this list any time.</p>
+
+  <div class="evt-groups">
+
+    <div>
+      <div class="evt-group-title">Vacation Block 1 &mdash; Aug 1-9</div>
+      <div class="evt-cards">
+        <div class="ec japan">
+          <div class="etit">Nihonmachi Street Fair</div>
+          <div class="eloc">Japantown SF &mdash; Aug 1-2</div>
+          <div class="edesc">One of the largest Japanese-American street festivals on the West Coast. Taiko, food stalls, live J-pop, local vendors. Free to attend. Vacation starts right as it opens.</div>
+          <span class="etag japan">Japan Festival</span>
+        </div>
+        <div class="ec music">
+          <div class="etit">Outside Lands</div>
+          <div class="eloc">Golden Gate Park &mdash; ~Aug 7-9</div>
+          <div class="edesc">SF's flagship music festival. Consistently strong headliners and the best food lineup of any US festival. Vacation ends right in time for the final weekend -- check 2026 lineup when announced.</div>
+          <span class="etag music">Music Festival</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Point Reyes National Seashore</div>
+          <div class="eloc">Marin County &mdash; 1.5 hr drive</div>
+          <div class="edesc">Lighthouse hike, tule elk reserve, and Hog Island Oyster Co for lunch. Best midweek to avoid crowds. One of the most scenic spots in Northern California.</div>
+          <span class="etag nature">Day Trip</span>
+        </div>
+        <div class="ec food">
+          <div class="etit">Napa Valley Weekday</div>
+          <div class="eloc">Napa/Yountville &mdash; 1.5 hr drive</div>
+          <div class="edesc">Weekday Napa = no crowds. Oxbow Public Market for lunch, Castello di Amorosa for views, Yountville for dinner (Bouchon Bistro). Book Bouchon in advance -- it fills up.</div>
+          <span class="etag food">Wine + Food</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Santa Cruz</div>
+          <div class="eloc">Santa Cruz &mdash; 1 hr drive</div>
+          <div class="edesc">Classic California beach town. Boardwalk amusement park, West Cliff Drive coastal walk, Seabright Beach. Best on a sunny weekday. Add Capitola village on the way back.</div>
+          <span class="etag nature">Beach Trip</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="evt-group-title">Oct 10-11 Free Weekend</div>
+      <div class="evt-cards">
+        <div class="ec music">
+          <div class="etit">Hardly Strictly Bluegrass</div>
+          <div class="eloc">Golden Gate Park &mdash; early Oct (verify)</div>
+          <div class="edesc">Completely FREE 3-day bluegrass and Americana festival. One of the best free music events in the US. Typically the first weekend of October -- confirm 2026 dates, it may fall Oct 2-4 or align with your weekend.</div>
+          <span class="etag music">Free Festival</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Fleet Week SF</div>
+          <div class="eloc">SF Waterfront &mdash; mid-Oct (verify)</div>
+          <div class="edesc">Blue Angels air show over the bay. Watch from Crissy Field, Fort Mason, or the Marina. Free from public areas. One of the most dramatic Fleet Week venues in the US.</div>
+          <span class="etag nature">SF Event</span>
+        </div>
+        <div class="ec film">
+          <div class="etit">Castro Theatre</div>
+          <div class="eloc">Castro District, SF</div>
+          <div class="edesc">Classic SF movie palace with a Wurlitzer organ. Indie films, classic screenings, and themed movie nights year-round. Check calendar for October programming. Always something interesting.</div>
+          <span class="etag film">Indie Film</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="evt-group-title">Vacation Block 2 &mdash; Dec 5-13</div>
+      <div class="evt-cards">
+        <div class="ec film">
+          <div class="etit">SF Ballet: The Nutcracker</div>
+          <div class="eloc">War Memorial Opera House, SF</div>
+          <div class="edesc">SF Ballet's Nutcracker is one of the best productions in the country. Runs all of December. Upper balcony tickets under $50. Book in advance -- popular dates sell out fast.</div>
+          <span class="etag film">Ballet</span>
+        </div>
+        <div class="ec food">
+          <div class="etit">Great Dickens Christmas Fair</div>
+          <div class="eloc">Cow Palace, Daly City &mdash; Nov-Dec weekends</div>
+          <div class="edesc">Victorian London immersive fair with costumed actors, live entertainment, period food and gifts. Runs Sat-Sun in November and December. Fun, campy, and full of holiday energy.</div>
+          <span class="etag food">Holiday Event</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Lake Tahoe Skiing</div>
+          <div class="eloc">Tahoe &mdash; 3.5 hr drive</div>
+          <div class="edesc">December opens ski season at Heavenly, Northstar, and Palisades Tahoe. Book midweek to save on lift tickets and avoid crowds. Book lodging well in advance -- Tahoe fills up in December.</div>
+          <span class="etag nature">Ski Trip</span>
+        </div>
+        <div class="ec film">
+          <div class="etit">Alamo Drafthouse SF</div>
+          <div class="eloc">Mission District, SF</div>
+          <div class="edesc">Reserved seating with a full dinner and cocktail service. Holiday film programming in December is always good. No talking policy strictly enforced -- the civilized way to watch a movie.</div>
+          <span class="etag film">Film + Dinner</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="evt-group-title">Vacation Block 3 &mdash; Feb 6-14</div>
+      <div class="evt-cards">
+        <div class="ec japan">
+          <div class="etit">SF Chinese New Year Parade</div>
+          <div class="eloc">Chinatown SF &mdash; ~Feb 13, 2027</div>
+          <div class="edesc">Year of the Sheep 2027. The SF parade is the largest Chinese New Year parade outside Asia. Floats, lion dancers, firecrackers down Grant Ave. Typically the Saturday nearest the lunar new year -- falls right in your vacation.</div>
+          <span class="etag japan">Cultural Festival</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Big Sur Winter Waterfalls</div>
+          <div class="eloc">Big Sur &mdash; 2.5 hr drive</div>
+          <div class="edesc">February is peak waterfall season. McWay Falls, Pfeiffer Beach purple sand, Bixby Bridge. Overnight at Fernwood Resort or Treebones (book months in advance -- sells out far ahead).</div>
+          <span class="etag nature">Overnight Trip</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Monterey + Carmel</div>
+          <div class="eloc">Monterey Peninsula &mdash; 2 hr drive</div>
+          <div class="edesc">Monterey Bay Aquarium (world-class), 17-Mile Drive, Carmel-by-the-Sea village. February = gray whale migration season -- kayak tours available. Great day trip or overnight at an inn.</div>
+          <span class="etag nature">Day or Overnight</span>
+        </div>
+        <div class="ec comedy">
+          <div class="etit">Valentine's at SFJAZZ</div>
+          <div class="eloc">SFJAZZ Center, Hayes Valley SF</div>
+          <div class="edesc">Valentine's week programming at SFJAZZ is reliably special. World-class performers in an intimate venue. Pair with dinner at Monsieur Benjamin or Rich Table nearby. Book tickets early -- sells out.</div>
+          <span class="etag comedy">Jazz + Dinner</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="evt-group-title">Vacation Block 4 &mdash; Apr 17-25</div>
+      <div class="evt-cards">
+        <div class="ec japan">
+          <div class="etit">SF Cherry Blossom Festival</div>
+          <div class="eloc">Japantown SF &mdash; mid-to-late April</div>
+          <div class="edesc">Two weekends of sakura in Japantown. Grand Parade, taiko drumming, ikebana, Japanese food stalls. The second festival weekend almost always falls within this vacation block. Don't miss the taiko showcase.</div>
+          <span class="etag japan">Japan Festival</span>
+        </div>
+        <div class="ec film">
+          <div class="etit">SF International Film Festival</div>
+          <div class="eloc">Multiple venues, SF &mdash; late Apr/early May</div>
+          <div class="edesc">SFIFF is the oldest film festival in the Americas. World premieres, retrospectives, and director Q&amp;As. Passes or per-screening tickets. Check sffilm.org for 2027 lineup and dates.</div>
+          <span class="etag film">Indie Film</span>
+        </div>
+        <div class="ec music">
+          <div class="etit">Coachella Weekend 2</div>
+          <div class="eloc">Indio CA &mdash; ~Apr 18-20 (verify)</div>
+          <div class="edesc">Weekend 2 typically falls in this vacation window. 6-hr drive or short flight to Palm Springs. Book accommodations the moment the lineup drops in early January -- everything near Indio goes fast.</div>
+          <span class="etag music">Music Festival</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Yosemite Waterfalls</div>
+          <div class="eloc">Yosemite &mdash; 3.5 hr drive</div>
+          <div class="edesc">April is the single best month for Yosemite waterfalls -- all at peak flow after snowmelt. Yosemite Falls, Bridalveil, Vernal and Nevada Falls. Day-use permits required; book on recreation.gov weeks ahead.</div>
+          <span class="etag nature">National Park</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="evt-group-title">VA Rotation Free Weekends &mdash; Year-Round Standbys</div>
+      <div class="evt-cards">
+        <div class="ec comedy">
+          <div class="etit">Punch Line SF / Cobb's Comedy</div>
+          <div class="eloc">Financial District + North Beach, SF</div>
+          <div class="edesc">Punch Line is one of the oldest comedy clubs in the US. Cobb's is larger with bigger touring headliners. Both run Fri-Sat shows. Tickets $20-35 online. Great for a low-key free weekend night.</div>
+          <span class="etag comedy">Comedy</span>
+        </div>
+        <div class="ec food">
+          <div class="etit">Japantown SF</div>
+          <div class="eloc">Japan Center, Post St, SF</div>
+          <div class="edesc">Kinokuniya bookstore, Marufuku ramen, Benkyodo mochi shop (a historic SF institution). The Japan Center malls have hidden import gems. SPiN sake bar nearby. Easy parking off Geary Blvd.</div>
+          <span class="etag food">Japan + Food</span>
+        </div>
+        <div class="ec music">
+          <div class="etit">Stern Grove Festival</div>
+          <div class="eloc">Stern Grove, SF &mdash; Sundays, Jun-Aug</div>
+          <div class="edesc">FREE outdoor Sunday concerts in a natural eucalyptus grove amphitheater. Eclectic lineup: classical, jazz, world music, dance. Bring a blanket and snacks. Very SF, very good.</div>
+          <span class="etag music">Free Concert</span>
+        </div>
+        <div class="ec food">
+          <div class="etit">Ferry Building Farmers Market</div>
+          <div class="eloc">The Embarcadero, SF &mdash; Saturdays</div>
+          <div class="edesc">Best farmers market in the Bay Area. Acme Bread, Humphry Slocombe ice cream, Blue Bottle coffee, Far West Fungi. Saturdays 8am-2pm. Free to browse. Walk the waterfront after.</div>
+          <span class="etag food">Food + Market</span>
+        </div>
+        <div class="ec food">
+          <div class="etit">Trick Dog + Comstock Saloon</div>
+          <div class="eloc">Mission + North Beach, SF</div>
+          <div class="edesc">Trick Dog (Mission): James Beard-nominated rotating themed menus, full food, no reservations. Comstock Saloon (North Beach): classic San Francisco cocktail bar, old-school atmosphere, excellent drinks.</div>
+          <span class="etag food">Cocktail Bars</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Half Moon Bay</div>
+          <div class="eloc">San Mateo County &mdash; 30 min from Palo Alto</div>
+          <div class="edesc">Closest beach town to Palo Alto. Sam's Chowder House on the pier, Mavericks Beach for big-wave views, Pigeon Point Lighthouse. Pumpkin patches in October. Perfect for a quick half-day reset.</div>
+          <span class="etag nature">Beach Escape</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p class="evt-repopulate">Events based on typical annual schedules -- verify exact 2026-27 dates before booking. Ask Claude to refresh this section any time for updated Bay Area picks.</p>
 </div>
 
 <script>
