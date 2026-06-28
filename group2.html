@@ -89,6 +89,7 @@
   .day.wd   { color: #64748b; }
   .day.off  { background: #dcfce7; color: #166534; font-weight: 700; }
   .day.work { background: #fee2e2; color: #991b1b; font-weight: 600; }
+  .day.work.call24 { background: #ef4444; color: #fff; font-weight: 800; }
   .day.vac  { background: #e0f2fe; color: #0c4a6e; font-weight: 700; }
   .day.today { outline: 2px solid #3b82f6; outline-offset: -1px; }
   .day.postcall::after {
@@ -109,15 +110,26 @@
   .peer.work { background: #f87171; }
   .peer.vac  { background: #38bdf8; }
 
-  /* Rotation badge — only shows on Saturdays */
+  /* Rotation + 24H badges — only show on Saturdays */
+  .badges { display: flex; gap: 2px; margin-top: 1px; flex-wrap: wrap; justify-content: center; }
   .rot {
     font-size: 6.5px; font-weight: 800; letter-spacing: .2px;
-    padding: 1px 3px; border-radius: 3px; margin-top: 1px;
+    padding: 1px 3px; border-radius: 3px;
     line-height: 1.2; text-transform: uppercase; white-space: nowrap;
   }
   .rot.rot-pava  { background: #ede9fe; color: #6d28d9; }
   .rot.rot-lpch  { background: #dbeafe; color: #1d4ed8; }
   .rot.rot-scvmc { background: #ffedd5; color: #c2410c; }
+  .badge-24h {
+    font-size: 6.5px; font-weight: 900; letter-spacing: .2px;
+    padding: 1px 3px; border-radius: 3px;
+    line-height: 1.2; white-space: nowrap;
+    background: rgba(0,0,0,.18); color: #fff;
+  }
+  /* on non-24h cells the rotation badge needs its own colours still visible */
+  .day.work:not(.call24) .rot.rot-pava  { background: #ede9fe; color: #6d28d9; }
+  .day.work:not(.call24) .rot.rot-lpch  { background: #dbeafe; color: #1d4ed8; }
+  .day.work:not(.call24) .rot.rot-scvmc { background: #ffedd5; color: #c2410c; }
 
   /* ── Panels ── */
   .panel {
@@ -186,7 +198,8 @@
   <div class="legend">
     <div class="li"><div class="ld ld-vac"></div>Vacation</div>
     <div class="li"><div class="ld ld-off"></div>Free weekend</div>
-    <div class="li"><div class="ld ld-work"></div>On call</div>
+    <div class="li"><div class="ld ld-work"></div>On call (regular)</div>
+    <div class="li"><div class="ld" style="background:#ef4444;"></div>24H call</div>
     <div class="li"><div class="ld ld-pc"></div>Post-call Sun</div>
     <div class="li"><div class="ld ld-day"></div>Workday</div>
   </div>
@@ -537,19 +550,27 @@ function renderCalendar() {
         // Active person's rotation (on Saturday only, shown in badge too)
         const satD = dow === 0 ? new Date(d.getTime() - 86400000) : d;
         const rot = getRotation(activeKey, satD);
-        if (rot) tipParts.push(ROT_META[rot].tip);
+        const isSat24hTip = dow === 6 && PEOPLE[activeKey].sat24h.has(s);
+        if (rot) tipParts.push(isSat24hTip ? `24-hour call · ${ROT_META[rot].tip}` : ROT_META[rot].tip);
+        else if (isSat24hTip) tipParts.push('24-hour call');
         if (holidays[s]) tipParts.push(holidays[s]);
         // Peers
         ps.forEach(pk => {
           const pst = getStatus(pk, d);
           const prot = getRotation(pk, satD);
-          const label = pst === 'vac' ? 'vacation' : pst === 'off' ? 'free' : `on call${prot ? ' · ' + ROT_META[prot].label : ''}`;
+          const pkIs24h = dow === 6 && PEOPLE[pk].sat24h.has(s);
+          const callLabel = pkIs24h ? '24h call' : 'on call';
+          const label = pst === 'vac' ? 'vacation' : pst === 'off' ? 'free' : `${callLabel}${prot ? ' · ' + ROT_META[prot].label : ''}`;
           tipParts.push(`${PEOPLE[pk].name}: ${label}`);
         });
       } else if (holidays[s]) {
         tipParts.push(holidays[s]);
       }
       const tipAttr = tipParts.length ? ` title="${tipParts.join(' | ')}"` : '';
+
+      // 24H Saturday detection
+      const is24h = dow === 6 && PEOPLE[activeKey].sat24h.has(s);
+      const call24cls = is24h ? ' call24' : '';
 
       // Peer dots
       let peersHtml = '';
@@ -562,17 +583,16 @@ function renderCalendar() {
         peersHtml = `<div class="peers">${dotsHtml}</div>`;
       }
 
-      // Rotation badge (Saturdays only, look up Saturday for Sundays too)
-      let rotHtml = '';
+      // Rotation + 24H badges (Saturdays only)
+      let badgesHtml = '';
       if (dow === 6) {
         const rot = getRotation(activeKey, d);
-        if (rot) {
-          const m = ROT_META[rot];
-          rotHtml = `<div class="rot ${m.cls}">${m.label}</div>`;
-        }
+        const rotBadge = rot ? `<span class="rot ${ROT_META[rot].cls}">${ROT_META[rot].label}</span>` : '';
+        const h24Badge = is24h ? `<span class="badge-24h">24H</span>` : '';
+        if (rotBadge || h24Badge) badgesHtml = `<div class="badges">${h24Badge}${rotBadge}</div>`;
       }
 
-      html += `<div class="day ${status}${pc}${today}${hol}"${tipAttr}><span class="dn">${day}</span>${peersHtml}${rotHtml}</div>`;
+      html += `<div class="day ${status}${call24cls}${pc}${today}${hol}"${tipAttr}><span class="dn">${day}</span>${peersHtml}${badgesHtml}</div>`;
     }
 
     html += `</div></div></div>`;
