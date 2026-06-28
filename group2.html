@@ -104,7 +104,10 @@
   .dn { font-size: 11px; font-weight: inherit; line-height: 1; }
 
   /* Peer dots */
-  .peers { display: flex; gap: 2px; margin-top: 1px; }
+  .peers {
+    position: absolute; bottom: 2px; left: 0; right: 0;
+    display: flex; gap: 2px; justify-content: center;
+  }
   .peer { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
   .peer.free { background: #4ade80; }
   .peer.work { background: #f87171; }
@@ -115,6 +118,8 @@
     position: absolute; bottom: 2px; left: 0; right: 0;
     display: flex; gap: 2px; justify-content: center; flex-wrap: nowrap;
   }
+  /* When both peers and badges are in the same cell, lift peers above badges */
+  .day:has(.badges) .peers { bottom: 12px; }
   .rot {
     font-size: 6.5px; font-weight: 800; letter-spacing: .2px;
     padding: 1px 3px; border-radius: 3px;
