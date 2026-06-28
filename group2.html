@@ -103,9 +103,9 @@
 
   .dn { font-size: 11px; font-weight: inherit; line-height: 1; }
 
-  /* Peer dots */
+  /* Peer dots — centered at bottom of weekend cells */
   .peers {
-    position: absolute; bottom: 2px; left: 0; right: 0;
+    position: absolute; bottom: 3px; left: 0; right: 0;
     display: flex; gap: 2px; justify-content: center;
   }
   .peer { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
@@ -113,31 +113,21 @@
   .peer.work { background: #f87171; }
   .peer.vac  { background: #38bdf8; }
 
-  /* Rotation + 24H badges — only show on Saturdays */
-  .badges {
-    position: absolute; bottom: 2px; left: 0; right: 0;
-    display: flex; gap: 2px; justify-content: center; flex-wrap: nowrap;
+  /* Rotation dot — bottom-left corner of Saturday cells */
+  .rot-dot {
+    position: absolute; bottom: 3px; left: 3px;
+    width: 5px; height: 5px; border-radius: 50%;
   }
-  /* When both peers and badges are in the same cell, lift peers above badges */
-  .day:has(.badges) .peers { bottom: 12px; }
-  .rot {
-    font-size: 6.5px; font-weight: 800; letter-spacing: .2px;
-    padding: 1px 3px; border-radius: 3px;
-    line-height: 1.2; text-transform: uppercase; white-space: nowrap;
+  .rot-dot.rot-pava  { background: #7c3aed; }
+  .rot-dot.rot-lpch  { background: #1d4ed8; }
+  .rot-dot.rot-scvmc { background: #ea580c; }
+
+  /* White dot at top-right of 24H cells — extra emphasis beyond the red bg */
+  .day.call24::after {
+    content: ''; position: absolute; top: 2px; right: 2px;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(255,255,255,0.75);
   }
-  .rot.rot-pava  { background: #ede9fe; color: #6d28d9; }
-  .rot.rot-lpch  { background: #dbeafe; color: #1d4ed8; }
-  .rot.rot-scvmc { background: #ffedd5; color: #c2410c; }
-  .badge-24h {
-    font-size: 6.5px; font-weight: 900; letter-spacing: .2px;
-    padding: 1px 3px; border-radius: 3px;
-    line-height: 1.2; white-space: nowrap;
-    background: rgba(0,0,0,.18); color: #fff;
-  }
-  /* on non-24h cells the rotation badge needs its own colours still visible */
-  .day.work:not(.call24) .rot.rot-pava  { background: #ede9fe; color: #6d28d9; }
-  .day.work:not(.call24) .rot.rot-lpch  { background: #dbeafe; color: #1d4ed8; }
-  .day.work:not(.call24) .rot.rot-scvmc { background: #ffedd5; color: #c2410c; }
 
   /* ── Panels ── */
   .panel {
@@ -212,10 +202,10 @@
     <div class="li"><div class="ld ld-day"></div>Workday</div>
   </div>
   <div class="rot-legend">
-    <span style="font-size:11px;color:#94a3b8;margin-right:2px;">Rotation →</span>
-    <span class="rl-item"><span class="rl-badge rot-pava">VA</span><span style="color:#64748b">PAVA · lighter</span></span>
-    <span class="rl-item"><span class="rl-badge rot-lpch">LPCH</span><span style="color:#64748b">Packard · moderate</span></span>
-    <span class="rl-item"><span class="rl-badge rot-scvmc">Valley</span><span style="color:#64748b">SCVMC · heavier</span></span>
+    <span style="font-size:11px;color:#94a3b8;margin-right:4px;">Rotation ●→</span>
+    <span class="rl-item"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#7c3aed;vertical-align:middle;margin-right:3px;"></span><span style="color:#64748b">PAVA · lighter</span></span>
+    <span class="rl-item"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#1d4ed8;vertical-align:middle;margin-right:3px;"></span><span style="color:#64748b">LPCH · moderate</span></span>
+    <span class="rl-item"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ea580c;vertical-align:middle;margin-right:3px;"></span><span style="color:#64748b">Valley · heavier</span></span>
   </div>
   <div class="peer-legend" id="peerLegend"></div>
 </div>
@@ -255,7 +245,7 @@ const BLOCKS = [
 const ROT_META = {
   PAVA:  { label: 'VA',    cls: 'rot-pava',  tip: 'VA (PAVA) · lighter call' },
   LPCH:  { label: 'LPCH',  cls: 'rot-lpch',  tip: 'Packard (LPCH) · moderate' },
-  SCVMC: { label: 'SC',    cls: 'rot-scvmc', tip: 'Valley (SCVMC) · heavier call' },
+  SCVMC: { label: 'Valley', cls: 'rot-scvmc', tip: 'Valley (SCVMC) · heavier call' },
 };
 
 function getRotation(key, d) {
@@ -591,16 +581,14 @@ function renderCalendar() {
         peersHtml = `<div class="peers">${dotsHtml}</div>`;
       }
 
-      // Rotation + 24H badges (Saturdays only)
-      let badgesHtml = '';
+      // Rotation dot (Saturdays only — bottom-left corner)
+      let rotDotHtml = '';
       if (dow === 6) {
         const rot = getRotation(activeKey, d);
-        const rotBadge = rot ? `<span class="rot ${ROT_META[rot].cls}">${ROT_META[rot].label}</span>` : '';
-        const h24Badge = is24h ? `<span class="badge-24h">24H</span>` : '';
-        if (rotBadge || h24Badge) badgesHtml = `<div class="badges">${h24Badge}${rotBadge}</div>`;
+        if (rot) rotDotHtml = `<div class="rot-dot ${ROT_META[rot].cls}"></div>`;
       }
 
-      html += `<div class="day ${status}${call24cls}${pc}${today}${hol}"${tipAttr}><span class="dn">${day}</span>${peersHtml}${badgesHtml}</div>`;
+      html += `<div class="day ${status}${call24cls}${pc}${today}${hol}"${tipAttr}><span class="dn">${day}</span>${peersHtml}${rotDotHtml}</div>`;
     }
 
     html += `</div></div></div>`;
