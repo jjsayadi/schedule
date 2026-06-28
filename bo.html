@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bo&rsquo;s Schedule &mdash; 2026&ndash;27</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    padding: 40px 24px 72px;
+    min-height: 100vh;
+  }
+
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 { font-size: 30px; font-weight: 800; color: #0f172a; letter-spacing: -.5px; }
+  .header .sub { margin-top: 6px; color: #64748b; font-size: 14px; }
+
+  .legend {
+    display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .li { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; font-weight: 500; }
+  .ld { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+  .ld-vac  { background: #38bdf8; }
+  .ld-off  { background: #4ade80; }
+  .ld-work { background: #f87171; }
+  .ld-busy { background: #fde68a; border: 1px solid #f59e0b; }
+  .ld-day  { background: #e2e8f0; border: 1px solid #cbd5e1; }
+  .ld-pc   {
+    width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0;
+    background: #fee2e2; position: relative;
+  }
+  .ld-pc::after {
+    content: '';
+    position: absolute; bottom: 2px; right: 2px;
+    width: 4px; height: 4px; border-radius: 50%; background: #f59e0b;
+  }
+
+  .stats { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+  .stat {
+    background: white; border-radius: 14px; padding: 14px 22px;
+    text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    border: 1px solid #e2e8f0; min-width: 110px;
+  }
+  .stat .num { font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1; }
+  .stat .lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-top: 4px; }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .month-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+  .month-head { background: #f8fafc; padding: 10px 14px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+  .month-head span { font-size: 13px; font-weight: 700; color: #334155; letter-spacing: .2px; }
+  .month-body { padding: 10px 10px 12px; }
+
+  .dow-row { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 3px; }
+  .dow-row div { text-align: center; font-size: 9px; font-weight: 700; color: #94a3b8; letter-spacing: .5px; text-transform: uppercase; padding: 2px 0; }
+
+  .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .day {
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500;
+    border-radius: 5px;
+    color: #94a3b8;
+    position: relative;
+  }
+  .day.wd   { color: #64748b; }
+  .day.off  { background: #dcfce7; color: #166534; font-weight: 700; }
+  .day.work { background: #fee2e2; color: #991b1b; font-weight: 600; }
+  .day.vac  { background: #e0f2fe; color: #0c4a6e; font-weight: 700; }
+  .day.busy { background: #fef9c3; color: #854d0e; font-weight: 700; border: 1px solid #fde68a; }
+  .day.today { outline: 2px solid #3b82f6; outline-offset: -1px; }
+
+  .day.postcall::after {
+    content: '';
+    position: absolute; bottom: 2px; right: 2px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #f59e0b;
+  }
+
+  .day.holiday::before {
+    content: '';
+    position: absolute; top: 2px; left: 2px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #6366f1;
+  }
+  .ld-hol { background: #e0e7ff; border: 1px solid #a5b4fc; position: relative; }
+  .ld-hol::before {
+    content: '';
+    position: absolute; top: 2px; left: 2px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #6366f1;
+  }
+
+  .upcoming {
+    max-width: 880px; margin: 28px auto 0;
+    background: white; border-radius: 16px; padding: 22px 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07); border: 1px solid #e2e8f0;
+  }
+  .upcoming h3 { font-size: 14px; font-weight: 700; color: #334155; margin-bottom: 14px; }
+  .up-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .up-chip {
+    padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .up-chip.off  { background: #dcfce7; color: #166534; }
+  .up-chip.vac  { background: #e0f2fe; color: #0c4a6e; }
+
+  .footer {
+    text-align: center; margin-top: 32px;
+    font-size: 12px; color: #94a3b8; line-height: 1.9;
+  }
+
+  @media (max-width: 680px) { .cal-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) {
+    .cal-grid { grid-template-columns: 1fr; }
+    body { padding: 24px 14px 56px; }
+    .header h1 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Bo&rsquo;s Schedule &mdash; 2026&ndash;27</h1>
+  <p class="sub">PGY3A Neurosurgery Residency &middot; Stanford &middot; When Bo&rsquo;s free</p>
+</div>
+
+<div class="legend">
+  <div class="li"><div class="ld ld-vac"></div>Vacation</div>
+  <div class="li"><div class="ld ld-off"></div>Free weekend</div>
+  <div class="li"><div class="ld ld-work"></div>On call</div>
+  <div class="li"><div class="ld ld-pc"></div>Post-call Sun (free PM)</div>
+  <div class="li"><div class="ld ld-day"></div>Regular workday</div>
+  <div class="li"><div class="ld ld-hol"></div>US Holiday</div>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="cal-grid" id="calGrid"></div>
+<div class="upcoming">
+  <h3>Free weekends at a glance</h3>
+  <div class="up-list" id="upList"></div>
+</div>
+
+<div class="footer">
+  <span style="opacity:.7">On-call = Sat 7am &mdash; Sun 7am &middot; Amber dot = post-call Sunday, free by evening</span><br>
+  Bo Lear &middot; PGY3A &middot; Stanford Neurosurgery 2026&ndash;27
+</div>
+
+<script>
+// ============================================================
+// SCHEDULE DATA — Bo Lear (PGY3A)
+// ============================================================
+const vacations = [
+  { start: '2026-07-04', end: '2026-07-12', label: 'Jul 4-12' },
+  { start: '2026-09-26', end: '2026-10-04', label: 'Sep 26 - Oct 4' },
+  { start: '2027-01-13', end: '2027-01-17', label: 'Jan 13-17' },
+  { start: '2027-04-22', end: '2027-05-02', label: 'Apr 22 - May 2' },
+];
+
+const offSats = new Set([
+  '2026-07-25',
+  '2026-08-22',
+  '2026-09-05',
+  '2026-10-24',
+  '2026-11-21',
+  '2026-12-19',
+  '2027-01-09',
+  '2027-01-30',
+  '2027-02-27',
+  '2027-03-06',
+  '2027-03-27',
+  '2027-05-15',
+  '2027-05-29',
+  '2027-06-19',
+]);
+
+const workSats = new Set([
+  '2026-07-18',
+  '2026-08-01','2026-08-08','2026-08-15','2026-08-29',
+  '2026-09-12','2026-09-19',
+  '2026-10-10','2026-10-17','2026-10-31',
+  '2026-11-07','2026-11-14','2026-11-28',
+  '2026-12-05','2026-12-12','2026-12-26',
+  '2027-01-02','2027-01-23',
+  '2027-02-06','2027-02-13','2027-02-20',
+  '2027-03-13','2027-03-20',
+  '2027-04-03','2027-04-10','2027-04-17',
+  '2027-05-08','2027-05-22',
+  '2027-06-05','2027-06-12',
+]);
+
+// Saturdays with 24-hour shifts (Sun is post-call: free by evening)
+const sat24h = new Set([
+  '2026-08-01','2026-08-15',
+  '2026-09-12',
+  '2026-10-10','2026-10-31',
+  '2026-11-07','2026-11-14',
+  '2026-12-05','2026-12-12',
+  '2027-01-02',
+  '2027-02-06','2027-02-13',
+  '2027-03-20',
+  '2027-04-10','2027-04-17',
+  '2027-05-08','2027-05-22',
+]);
+
+const holidays = {
+  '2026-07-04': 'Independence Day',
+  '2026-09-07': 'Labor Day',
+  '2026-11-11': 'Veterans Day',
+  '2026-11-26': 'Thanksgiving',
+  '2026-12-25': 'Christmas',
+  '2027-01-01': "New Year's Day",
+  '2027-01-18': 'MLK Day',
+  '2027-02-15': "Presidents' Day",
+  '2027-05-31': 'Memorial Day',
+  '2027-06-19': 'Juneteenth',
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function pad(n) { return String(n).padStart(2,'0'); }
+function toStr(d) { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+const todayStr = toStr(new Date());
+
+function getStatus(d) {
+  const s = toStr(d);
+  for (const v of vacations) if (s >= v.start && s <= v.end) return 'vac';
+  const dow = d.getDay();
+  if (dow === 6) {
+    if (offSats.has(s)) return 'off';
+    if (workSats.has(s)) return 'work';
+    return 'wd';
+  }
+  if (dow === 0) {
+    const prev = new Date(d); prev.setDate(prev.getDate() - 1);
+    const ps = toStr(prev);
+    if (offSats.has(ps)) return 'off';
+    if (workSats.has(ps)) return 'work';
+    return 'wd';
+  }
+  return 'wd';
+}
+
+function isPostCall(d) {
+  if (d.getDay() !== 0) return false;
+  const prev = new Date(d); prev.setDate(prev.getDate() - 1);
+  return sat24h.has(toStr(prev));
+}
+
+// ============================================================
+// BUILD CALENDAR
+// ============================================================
+const MONTH_NAMES = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+const DOW = ['S','M','T','W','T','F','S'];
+
+const months = [];
+for (let i = 0; i < 12; i++) {
+  const absMonth = 6 + i;
+  months.push({ year: 2026 + Math.floor(absMonth / 12), month: absMonth % 12 });
+}
+
+const grid = document.getElementById('calGrid');
+months.forEach(({ year, month }) => {
+  const first = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const startDow = first.getDay();
+
+  let html = `<div class="month-card">
+    <div class="month-head"><span>${MONTH_NAMES[month]} ${year}</span></div>
+    <div class="month-body">
+      <div class="dow-row">${DOW.map(d=>`<div>${d}</div>`).join('')}</div>
+      <div class="days">`;
+
+  for (let i = 0; i < startDow; i++) html += `<div class="day"></div>`;
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const d = new Date(year, month, day);
+    const s = toStr(d);
+    const status = getStatus(d);
+    const pc = isPostCall(d) ? ' postcall' : '';
+    const today = s === todayStr ? ' today' : '';
+    const hol = holidays[s] ? ' holiday' : '';
+    const tip = holidays[s] ? ` title="${holidays[s]}"` : '';
+    html += `<div class="day ${status}${pc}${today}${hol}" data-date="${s}" data-base="${status}"${tip}>${day}</div>`;
+  }
+
+  html += `</div></div></div>`;
+  grid.innerHTML += html;
+});
+
+// ============================================================
+// STATS
+// ============================================================
+let freeWkds = 0;
+const freeList = [];
+const iterD = new Date(2026, 6, 4);
+while (iterD <= new Date(2027, 5, 30)) {
+  const st = getStatus(iterD);
+  if (st === 'off' || st === 'vac') {
+    freeWkds++;
+    freeList.push({ label: MONTH_NAMES[iterD.getMonth()].slice(0,3) + ' ' + iterD.getDate(), status: st });
+  }
+  iterD.setDate(iterD.getDate() + 7);
+}
+
+document.getElementById('stats').innerHTML = `
+  <div class="stat"><div class="num">4</div><div class="lbl">Vacations</div></div>
+  <div class="stat"><div class="num">${freeWkds}</div><div class="lbl">Free Weekends</div></div>
+  <div class="stat"><div class="num">Jun '27</div><div class="lbl">Year Ends</div></div>
+`;
+
+const vacChips = vacations.map(v => `<div class="up-chip vac">&#x1F334; Vacation: ${v.label}</div>`).join('');
+const offChips = freeList.filter(f => f.status === 'off').map(f => `<div class="up-chip off">&#10003; ${f.label} wknd</div>`).join('');
+document.getElementById('upList').innerHTML = vacChips + offChips;
+</script>
+</body>
+</html>
