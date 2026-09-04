@@ -350,32 +350,32 @@
       </div>
     </div>
 
-    <div id="evt-apr">
-      <div class="evt-group-title">Vacation Block 4 &mdash; Apr 17-25</div>
+    <div id="evt-may">
+      <div class="evt-group-title">Vacation Block 4 &mdash; May 3-9</div>
       <div class="evt-cards">
-        <div class="ec japan">
-          <div class="etit">SF Cherry Blossom Festival</div>
-          <div class="eloc">Japantown SF &mdash; mid-to-late April</div>
-          <div class="edesc">Two weekends of sakura in Japantown. Grand Parade, taiko drumming, ikebana, Japanese food stalls. The second festival weekend almost always falls within this vacation block. Don't miss the taiko showcase.</div>
-          <span class="etag japan">Japan Festival</span>
-        </div>
-        <div class="ec film">
-          <div class="etit">SF International Film Festival</div>
-          <div class="eloc">Multiple venues, SF &mdash; late Apr/early May</div>
-          <div class="edesc">SFIFF is the oldest film festival in the Americas. World premieres, retrospectives, and director Q&amp;As. Passes or per-screening tickets. Check sffilm.org for 2027 lineup and dates.</div>
-          <span class="etag film">Indie Film</span>
-        </div>
         <div class="ec music">
-          <div class="etit">Coachella Weekend 2</div>
-          <div class="eloc">Indio CA &mdash; ~Apr 18-20 (verify)</div>
-          <div class="edesc">Weekend 2 typically falls in this vacation window. 6-hr drive or short flight to Palm Springs. Book accommodations the moment the lineup drops in early January -- everything near Indio goes fast.</div>
-          <span class="etag music">Music Festival</span>
+          <div class="etit">How Weird Street Faire</div>
+          <div class="eloc">SoMa, SF &mdash; first Sunday of May</div>
+          <div class="edesc">Free street festival born out of SF's underground dance scene: multiple outdoor stages of electronic/techno music, art cars, wild costumes. Falls right at the start of this week off &mdash; check howweird.org for the exact 2027 date.</div>
+          <span class="etag music">Street Festival</span>
+        </div>
+        <div class="ec food">
+          <div class="etit">Cinco de Mayo &mdash; the Mission</div>
+          <div class="eloc">24th St &amp; Mission District, SF &mdash; May 5</div>
+          <div class="edesc">May 5 lands mid-week this year. The Mission's taquerias, mercados, and 24th St corridor lean into it with live music and food specials &mdash; a good low-key weeknight outing during the week off.</div>
+          <span class="etag food">Food + Culture</span>
         </div>
         <div class="ec nature">
-          <div class="etit">Yosemite Waterfalls</div>
-          <div class="eloc">Yosemite &mdash; 3.5 hr drive</div>
-          <div class="edesc">April is the single best month for Yosemite waterfalls -- all at peak flow after snowmelt. Yosemite Falls, Bridalveil, Vernal and Nevada Falls. Day-use permits required; book on recreation.gov weeks ahead.</div>
-          <span class="etag nature">National Park</span>
+          <div class="etit">Filoli Spring Bloom</div>
+          <div class="eloc">Woodside &mdash; 40 min south of SF</div>
+          <div class="edesc">Early May is peak bloom for Filoli's formal gardens &mdash; tulips give way to wisteria, iris, and the start of the rose season. Go on a weekday for near-empty paths since you'll have the whole week off.</div>
+          <span class="etag nature">Garden</span>
+        </div>
+        <div class="ec nature">
+          <div class="etit">Big Sur &amp; Highway 1</div>
+          <div class="eloc">Big Sur &mdash; 2.5-3 hr drive</div>
+          <div class="edesc">Spring means wildflowers along the bluffs, still-flowing McWay Falls, and far less fog than summer. Worth an overnight at a Big Sur campground or Cambria motel to break up the coastal drive.</div>
+          <span class="etag nature">Overnight Trip</span>
         </div>
       </div>
     </div>
@@ -464,7 +464,7 @@ const vacations = [
   { start: '2026-08-01', end: '2026-08-09', label: 'Aug 1-9' },
   { start: '2026-12-05', end: '2026-12-13', label: 'Dec 5-13' },
   { start: '2027-02-06', end: '2027-02-14', label: 'Feb 6-14' },
-  { start: '2027-04-17', end: '2027-04-25', label: 'Apr 17-25' },
+  { start: '2027-05-03', end: '2027-05-09', label: 'May 3-9' },
 ];
 
 const offSats = new Set([
@@ -474,6 +474,7 @@ const offSats = new Set([
   '2026-10-10','2026-10-31',
   '2026-11-07','2026-11-14',
   '2027-03-06','2027-03-27',
+  '2027-04-17','2027-04-24',
   '2027-05-08','2027-05-22',
 ]);
 
@@ -693,7 +694,7 @@ function getEventSectionId(s) {
   if (s >= '2026-10-10' && s <= '2026-10-11') return 'evt-oct';
   if (s >= '2026-12-05' && s <= '2026-12-13') return 'evt-dec';
   if (s >= '2027-02-06' && s <= '2027-02-14') return 'evt-feb';
-  if (s >= '2027-04-17' && s <= '2027-04-25') return 'evt-apr';
+  if (s >= '2027-05-03' && s <= '2027-05-09') return 'evt-may';
   return 'evt-standbys';
 }
 document.getElementById('calGrid').addEventListener('click', function(e) {
